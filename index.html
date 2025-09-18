@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connexion / Inscription</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Orbitron', sans-serif;
+      color: #fff;
+      background-color: #000;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background-color: #111;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 30px #0ff;
+      width: 350px;
+      text-align: center;
+    }
+
+    .container h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      color: #0ff;
+      text-shadow: 0 0 10px #0ff;
+    }
+
+    .input-field {
+      background-color: transparent;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 15px;
+      width: 100%;
+      color: #fff;
+      outline: none;
+      transition: 0.3s ease;
+    }
+
+    .input-field:focus {
+      box-shadow: 0 0 10px #0ff;
+    }
+
+    .submit-btn {
+      background-color: transparent;
+      border: 2px solid #0ff;
+      border-radius: 10px;
+      padding: 10px;
+      color: #0ff;
+      cursor: pointer;
+      width: 100%;
+      font-weight: bold;
+      text-transform: uppercase;
+      transition: 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: #0ff;
+      color: #000;
+      box-shadow: 0 0 15px #0ff;
+    }
+
+    .toggle-link {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .toggle-link a {
+      color: #1e90ff;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .error-message {
+      color: #f00;
+      margin-bottom: 10px;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Connexion -->
+    <div id="login-form">
+      <h1>Connexion</h1>
+      <form action="connexion.php" method="POST">
+        <input type="text" class="input-field" name="nom" placeholder="Nom" required>
+        <input type="password" class="input-field" name="mdp" placeholder="Mot de passe" required>
+        <button class="submit-btn" type="submit">Connexion</button>
+      </form>
+      <div class="toggle-link">
+        Pas encore inscrit ? <a onclick="toggleForm()">Inscription</a>
+      </div>
+    </div>
+
+    <!-- Inscription -->
+    <div id="signup-form" class="hidden">
+      <h1>Inscription</h1>
+      <form action="inscription.php" method="POST">
+        <input type="email" class="input-field" name="email" placeholder="Email" required>
+        <input type="text" class="input-field" name="nom" placeholder="Nom" required>
+        <input type="text" class="input-field" name="prenom" placeholder="Prénom" required>
+        <input type="password" class="input-field" name="mdp" placeholder="Mot de passe" required minlength="6">
+        <input type="password" class="input-field" name="confirm_mdp" placeholder="Confirmer le mot de passe" required>
+        <button class="submit-btn" type="submit">S'inscrire</button>
+      </form>
+      <div class="toggle-link">
+        Déjà un compte ? <a onclick="toggleForm()">Connexion</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleForm() {
+      document.getElementById('login-form').classList.toggle('hidden');
+      document.getElementById('signup-form').classList.toggle('hidden');
+    }
+  </script>
+</body>
+</html>

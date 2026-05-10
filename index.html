@@ -1,913 +1,1647 @@
 <!DOCTYPE html>
-<html lang="fr-FR">
+<html lang="fr" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>V-Bucks · Fortnite · Panier & Chat</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+    <meta name="description" content="MAILA Ultra-Control Panel - Galerie de medias avec modération et favoris" />
+    <title>MAILA Ultra-Control Panel v11.0</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Inter:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>+</text></svg>" />
+
     <style>
+        /* ======================
+           CONFIGURATION GLOBALE
+        ====================== */
+        :root {
+            /* Theme sombre */
+            --bg-deep: #030305;
+            --bg-secondary: #0a0a0f;
+            --bg-card: rgba(15, 15, 25, 0.7);
+            --glass: rgba(15, 15, 25, 0.7);
+            --glass-bright: rgba(255, 255, 255, 0.05);
+            --accent: #ff2d7a;
+            --accent-glow: rgba(255, 45, 122, 0.5);
+            --accent2: #9d4eff;
+            --text-main: #ffffff;
+            --text-muted: #8e8e9e;
+            --border-ui: rgba(255, 255, 255, 0.08);
+            --card-w: 340px;
+            --card-h: 240px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-glow: 0 0 20px var(--accent-glow);
+            --scrollbar-thumb: var(--accent2);
+            --scrollbar-track: transparent;
+        }
+
+        /* Theme clair */
+        [data-theme="light"] {
+            --bg-deep: #f5f5f7;
+            --bg-secondary: #ffffff;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --glass: rgba(255, 255, 255, 0.9);
+            --glass-bright: rgba(0, 0, 0, 0.05);
+            --text-main: #1a1a1a;
+            --text-muted: #6c6c6c;
+            --border-ui: rgba(0, 0, 0, 0.1);
+            --scrollbar-thumb: var(--accent);
+        }
+
+        /* ======================
+           RESET & BASE
+        ====================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #000000;
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-            color: #ffffff;
-            line-height: 1.4;
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-        }
-        .app {
-            max-width: 560px;
-            margin: 0 auto;
-            background: #0a0a0a;
             min-height: 100vh;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.5);
+            line-height: 1.6;
         }
-        /* header */
-        .header {
-            padding: 24px 20px 12px;
-            border-bottom: 1px solid #2c2c2c;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #000000;
+
+        /* Scrollbar personnalisée */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
         }
-        .logo h1 {
-            font-size: 1.9rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, #aaa);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
         }
-        .logo p {
-            font-size: 0.7rem;
-            color: #8f94a3;
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
         }
-        .header-actions {
-            display: flex;
-            gap: 12px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
         }
-        .icon-btn {
-            background: #1a1a1a;
-            border: none;
-            border-radius: 60px;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-        .cart-btn {
-            background: #1a1a1a;
-            border: none;
-            border-radius: 60px;
-            padding: 8px 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            color: white;
-            font-weight: 500;
-        }
-        .cart-badge {
-            background: white;
-            color: black;
-            border-radius: 40px;
-            padding: 2px 10px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-        /* formulaire */
-        .form-card {
-            padding: 20px 20px 8px;
-        }
-        .field {
-            margin-bottom: 20px;
-        }
-        label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.8rem;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #dbdbdb;
-        }
-        select, input {
-            width: 100%;
-            padding: 14px 18px;
-            background: #141414;
-            border: 1px solid #333;
-            border-radius: 28px;
-            font-size: 0.9rem;
-            color: white;
-            outline: none;
-        }
-        select:focus, input:focus {
-            border-color: #ffffff;
-        }
-        .vbuck-selector {
-            margin: 20px 0;
-        }
-        .vbuck-dropdown {
-            background: #141414;
-            border: 1px solid #333;
-            border-radius: 28px;
-            padding: 14px 18px;
-            width: 100%;
-            appearance: none;
-            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
-            background-repeat: no-repeat;
-            background-position: right 18px center;
-            cursor: pointer;
-        }
-        .add-btn {
-            background: #2a2a2a;
-            border: none;
-            padding: 12px;
-            border-radius: 60px;
-            color: white;
-            font-weight: 600;
-            width: 100%;
-            cursor: pointer;
-            margin-top: 12px;
-        }
-        .phone-block {
-            margin: 16px 0;
-        }
-        .order-btn {
-            background: white;
-            color: black;
-            width: 100%;
-            border: none;
-            padding: 16px;
-            border-radius: 60px;
-            font-weight: 800;
-            font-size: 1rem;
-            margin: 10px 0 20px;
-            cursor: pointer;
-        }
-        .error-msg {
-            color: #ff8a7a;
-            font-size: 0.7rem;
-            margin-top: 6px;
-        }
-        /* bottom nav */
-        .bottom-nav {
-            display: flex;
-            justify-content: space-around;
-            background: #050505;
-            border-top: 1px solid #222;
-            padding: 12px 16px 24px;
-            margin-top: 20px;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            background: none;
-            border: none;
-            color: #9a9ea8;
-            font-size: 0.7rem;
-            cursor: pointer;
-            transition: 0.1s;
-        }
-        .nav-item.active {
+
+        /* Sélection de texte */
+        ::selection {
+            background: var(--accent);
             color: white;
         }
-        .nav-item svg {
-            width: 22px;
-            height: 22px;
-            stroke: currentColor;
-            fill: none;
-        }
-        /* panier latéral */
-        .cart-panel {
-            position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            max-width: 480px;
-            width: 90%;
-            background: #0c0c0e;
-            z-index: 1000;
-            transform: translateX(100%);
-            transition: transform 0.25s ease-out;
-            box-shadow: -5px 0 30px rgba(0,0,0,0.8);
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid #2e2e2e;
-        }
-        .cart-panel.open {
-            transform: translateX(0);
-        }
-        .cart-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 20px;
-            border-bottom: 1px solid #2a2a2a;
-        }
-        .cart-header h2 {
-            font-size: 1.4rem;
-        }
-        .close-cart {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 28px;
-            cursor: pointer;
-        }
-        .cart-items-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
-        }
-        .cart-item-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 18px;
-            background: #151515;
-            padding: 12px 16px;
-            border-radius: 28px;
-        }
-        .cart-qty-control {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        .cart-qty-control button {
-            background: #2c2c2c;
-            border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 30px;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        .remove-cart-item {
-            background: none;
-            border: none;
-            color: #ff6b6b;
-            font-size: 1.2rem;
-            margin-left: 12px;
-            cursor: pointer;
-        }
-        .cart-total {
-            padding: 20px;
-            border-top: 1px solid #2a2a2a;
-            text-align: right;
-            color: #aaa;
-        }
-        .empty-cart {
-            text-align: center;
-            color: #9aa0b0;
-            padding: 40px 0;
-        }
-        /* chat widget déplaçable */
-        .chat-widget {
-            position: fixed;
-            bottom: 80px;
-            left: 10px;
-            right: 10px;
-            max-width: 500px;
-            margin: 0 auto;
-            background: #121212;
-            border-radius: 32px;
-            border: 1px solid #3a3a3a;
-            z-index: 1200;
-            display: none;
-            flex-direction: column;
-            height: 540px;
-            box-shadow: 0 20px 35px black;
-            overflow: hidden;
-        }
-        .chat-widget.open {
-            display: flex;
-        }
-        .chat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            border-bottom: 1px solid #2a2a2a;
-            cursor: grab;
-            background: #0e0e0e;
-            border-radius: 32px 32px 0 0;
-        }
-        .chat-header:active {
-            cursor: grabbing;
-        }
-        .chat-messages {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .message {
-            max-width: 80%;
-            padding: 8px 14px;
-            border-radius: 24px;
-            font-size: 0.8rem;
-            word-break: break-word;
-        }
-        .message.user {
-            background: #2c2e36;
-            align-self: flex-end;
-        }
-        .message.other {
-            background: #1f2a2f;
-            align-self: flex-start;
-            color: #ddd;
-        }
-        .message.system {
-            background: #2a2a2a;
-            align-self: center;
-            color: #ffaa44;
-            font-style: italic;
-            font-size: 0.75rem;
-            max-width: 90%;
-            text-align: center;
-        }
-        .message.embed {
-            background: #1e1e2a;
-            border-left: 4px solid #ffaa44;
-            max-width: 90%;
-            align-self: center;
-            width: 100%;
-        }
-        .embed-title {
-            font-weight: bold;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .embed-description {
-            font-size: 0.8rem;
-            color: #ccc;
-        }
-        .profile-preview {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-            align-items: center;
-        }
-        .profile-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: #ffaa44;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .profile-banner {
-            height: 60px;
-            background: linear-gradient(135deg, #3a3a4a, #1a1a2a);
-            border-radius: 12px;
-            margin-bottom: 8px;
-        }
-        .message-info {
-            font-size: 0.65rem;
-            color: #aaa;
-            margin-bottom: 4px;
-        }
-        .message-img {
-            max-width: 200px;
-            max-height: 200px;
-            border-radius: 16px;
-            margin-top: 6px;
-        }
-        .audio-message {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #2c2e36;
-            padding: 6px 12px;
-            border-radius: 40px;
-            width: fit-content;
-        }
-        .chat-input-area {
-            position: relative;
-            display: flex;
-            padding: 12px;
-            gap: 12px;
-            border-top: 1px solid #2a2a2a;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .chat-input-area input[type="text"] {
-            flex: 1;
-            background: #1e1e1e;
-            border: none;
-            border-radius: 60px;
-            padding: 12px 18px;
-            color: white;
-            user-select: text;
-        }
-        .action-btn {
-            background: white;
-            border: none;
-            border-radius: 60px;
-            padding: 0 18px;
-            font-weight: bold;
-            color: black;
-            cursor: pointer;
-            height: 44px;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .recording-btn {
-            background: #aa2e2e;
-            color: white;
-        }
-        /* menu slash */
-        .slash-menu {
-            position: absolute;
-            bottom: 100%;
-            left: 12px;
-            background: #1e1e2a;
-            border-radius: 20px;
-            border: 1px solid #444;
-            overflow: hidden;
-            z-index: 1300;
-            width: 240px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-            display: none;
-        }
-        .slash-menu-item {
-            padding: 10px 16px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            border-bottom: 1px solid #2a2a2a;
-            transition: 0.1s;
-        }
-        .slash-menu-item:hover {
-            background: #2c2c3a;
-        }
-        .slash-menu-item svg {
-            width: 18px;
-            height: 18px;
-            stroke: #ffaa44;
-        }
-        .toast {
-            position: fixed;
-            bottom: 100px;
-            left: 20px;
-            right: 20px;
-            background: #1f2a2f;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 60px;
-            text-align: center;
-            font-size: 0.8rem;
-            z-index: 1300;
-        }
-        /* modales */
-        .fullscreen-modal {
+
+        /* ======================
+           ARRIERE-PLAN
+        ====================== */
+        .page-background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.96);
-            backdrop-filter: blur(12px);
-            z-index: 1500;
+            background: url('https://files.catbox.moe/0qk3ab.jpg') no-repeat center center;
+            background-size: cover;
+            filter: blur(50px) brightness(0.3);
+            z-index: -1;
+            transform: scale(1.2);
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        [data-theme="light"] .page-background {
+            filter: blur(50px) brightness(0.8);
+        }
+
+        /* ======================
+           HEADER & NAVIGATION
+        ====================== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid var(--border-ui);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+        }
+
+        [data-theme="light"] header {
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-logo {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--text-main);
+            text-decoration: none;
+            border: 2px solid var(--accent);
+            padding: 8px 18px;
+            border-radius: 4px;
+            box-shadow: var(--shadow-glow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .main-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            color: var(--text-main);
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .action-btn:hover {
+            background: var(--accent2);
+            border-color: var(--accent2);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(157, 78, 255, 0.3);
+        }
+
+        .action-btn .badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--accent);
             color: white;
+            font-size: 0.6rem;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 50%;
+            min-width: 18px;
             text-align: center;
-            padding: 32px;
         }
-        .fullscreen-modal .modal-content {
-            max-width: 400px;
-            background: #121212;
-            padding: 32px;
-            border-radius: 48px;
-            border: 1px solid #333;
-        }
-        .fullscreen-modal input {
-            margin: 12px 0;
-        }
-        .fullscreen-modal button {
-            background: white;
-            color: black;
+
+        .theme-toggle {
+            background: transparent;
             border: none;
-            padding: 12px 28px;
-            border-radius: 60px;
-            margin-top: 16px;
+            color: var(--text-main);
             cursor: pointer;
-            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 10px;
+            transition: var(--transition);
         }
-        .toggle-auth {
-            color: #ffaa44;
+
+        .theme-toggle:hover {
+            background: var(--glass-bright);
+        }
+
+        /* ======================
+           HERO SECTION
+        ====================== */
+        .hero-section {
+            height: 55vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-top: 80px;
+            overflow: hidden;
+            background: var(--bg-secondary);
+        }
+
+        .hero-media-fixed {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://files.catbox.moe/0qk3ab.jpg') no-repeat center center;
+            background-size: cover;
+            filter: blur(10px);
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            animation: globalFloat 5s infinite ease-in-out;
+        }
+
+        @keyframes globalFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .discord-tag {
+            position: absolute;
+            top: -40px;
+            right: -60px;
+            background: var(--accent2);
+            color: white;
+            padding: 10px 25px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            font-family: 'JetBrains Mono';
+            transform: rotate(12deg);
+            border-radius: 8px;
+            box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            z-index: 15;
+            transition: var(--transition);
+        }
+
+        .discord-tag:hover {
+            transform: rotate(12deg) scale(1.1);
+            box-shadow: 8px 8px 0px rgba(157, 78, 255, 0.6);
+        }
+
+        .hero-content h1 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            line-height: 0.85;
+            text-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-content h1 span {
+            color: var(--accent2);
+            display: block;
+            font-size: 0.5em;
+            letter-spacing: 15px;
+            margin-top: 10px;
+        }
+
+        .hero-subtitle {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        /* ======================
+           CONTROLES (RECHERCHE & CATEGORIES)
+        ====================== */
+        .controls-wrapper {
+            position: sticky;
+            top: 80px;
+            z-index: 1500;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-ui);
+            padding: 20px 0;
+        }
+
+        .search-area {
+            max-width: 700px;
+            margin: 0 auto 20px;
+            padding: 0 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-field {
+            flex: 1;
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            padding: 18px 25px;
+            border-radius: 15px;
+            color: var(--text-main);
+            outline: none;
+            transition: var(--transition);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(255, 45, 122, 0.2);
+        }
+
+        .search-field::placeholder {
+            color: var(--text-muted);
+        }
+
+        .filter-btn {
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            color: var(--text-main);
+            padding: 0 20px;
+            border-radius: 15px;
             cursor: pointer;
-            margin-top: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        .filter-btn:hover {
+            background: var(--accent2);
+            border-color: var(--accent2);
+        }
+
+        .filter-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-ui);
+            border-radius: 15px;
+            padding: 10px;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 3000;
+            display: none;
+        }
+
+        .filter-menu.active {
+            display: block;
+        }
+
+        .filter-option {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filter-option:hover {
+            background: var(--glass-bright);
+        }
+
+        .filter-option input {
+            margin-right: 8px;
+        }
+
+        .category-scroll {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 0 30px;
+            justify-content: center;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-tag {
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: var(--transition);
+            white-space: nowrap;
+            user-select: none;
+        }
+
+        .cat-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .cat-tag.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ======================
+           GRID DE CONTENU
+        ====================== */
+        .content-grid {
+            max-width: 1600px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(var(--card-w), 1fr));
+            gap: 25px;
+            padding: 0 30px;
+        }
+
+        @media (max-width: 768px) {
+            .content-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+                padding: 0 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .media-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-ui);
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .media-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .thumbnail-container {
+            position: relative;
+            width: 100%;
+            height: var(--card-h);
+            background: #000;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .thumbnail-container img,
+        .thumbnail-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .thumbnail-container:hover img,
+        .thumbnail-container:hover video {
+            transform: scale(1.05);
+        }
+
+        .card-spoiler {
+            position: absolute;
+            inset: 0;
+            background: rgba(5, 5, 10, 0.98);
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: var(--transition);
+        }
+
+        .card-spoiler.hidden {
+            display: none;
+        }
+
+        .card-spoiler i {
+            font-size: 2rem;
+            color: var(--text-muted);
+        }
+
+        .card-spoiler span {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.8rem;
+            color: var(--text-muted);
+            letter-spacing: 3px;
+        }
+
+        .card-info {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .card-ref {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .card-actions i {
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .card-actions i.fav {
+            color: var(--text-muted);
+        }
+
+        .card-actions i.fav.active {
+            color: var(--accent);
+        }
+
+        .card-actions i.download {
+            color: var(--text-muted);
+        }
+
+        .card-actions i.download:hover {
+            color: var(--accent2);
+        }
+
+        /* ======================
+           FAVORIS (MODAL)
+        ====================== */
+        .fav-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-ui);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .fav-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .fav-item img,
+        .fav-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-fav-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .remove-fav-btn:hover {
+            background: #e6005c;
+            transform: rotate(90deg);
+        }
+
+        /* ======================
+           LIGHTBOX (VISIONNEUSE)
+        ====================== */
+        #media-viewer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.98);
+            z-index: 9999;
+            backdrop-filter: blur(30px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #media-viewer.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .viewer-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 10px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .viewer-content img,
+        .viewer-content video {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+        }
+
+        .viewer-actions {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+        }
+
+        .viewer-actions button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .viewer-actions button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* ======================
+           MODALES
+        ====================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 8000;
+            backdrop-filter: blur(15px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-body {
+            background: var(--bg-secondary);
+            border: 2px solid var(--accent2);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 30px;
+            padding: 40px;
+            position: relative;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+        }
+
+        .paypal-btn-huge {
+            width: 100%;
+            background: #0070ba;
+            color: #fff;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .paypal-btn-huge:hover {
+            background: #005f9e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 112, 186, 0.4);
+        }
+
+        /* ======================
+           NOTIFICATIONS
+        ====================== */
+        #notification-center {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+
+        .toast-msg {
+            background: var(--accent2);
+            padding: 12px 30px;
+            border-radius: 50px;
+            color: white;
+            margin-bottom: 10px;
+            animation: slideUp 0.4s ease;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(157, 78, 255, 0.3);
+        }
+
+        .toast-msg.success {
+            background: #2ecc71;
+        }
+
+        .toast-msg.error {
+            background: #e74c3c;
+        }
+
+        .toast-msg.warning {
+            background: #f39c12;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* ======================
+           LOADING SPINNER
+        ====================== */
+        .loading-spinner {
+            display: none;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--glass-bright);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ======================
+           BOUTON "CHARGER PLUS"
+        ====================== */
+        .load-more-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 40px;
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            color: var(--text-main);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .load-more-btn:hover {
+            background: var(--accent2);
+            border-color: var(--accent2);
+            transform: translateY(-2px);
+        }
+
+        .load-more-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ======================
+           PANNEAU DE PARAMETRES
+        ====================== */
+        .settings-panel {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-ui);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            transition: var(--transition);
+            z-index: 9000;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .settings-panel:hover {
+            background: var(--accent2);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .settings-modal {
+            position: fixed;
+            right: 20px;
+            bottom: 100px;
+            width: 300px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-ui);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 9000;
+            display: none;
+        }
+
+        .settings-modal.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .settings-modal h3 {
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: var(--text-main);
+        }
+
+        .settings-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-ui);
+        }
+
+        .settings-option:last-child {
+            border-bottom: none;
+        }
+
+        .settings-option label {
+            cursor: pointer;
+        }
+
+        .settings-option select,
+        .settings-option input {
+            background: var(--glass-bright);
+            border: 1px solid var(--border-ui);
+            color: var(--text-main);
+            padding: 8px;
+            border-radius: 8px;
+        }
+
+        /* ======================
+           RESPONSIVE
+        ====================== */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 15px;
+            }
+
+            .search-area {
+                padding: 0 15px;
+            }
+
+            .category-scroll {
+                padding: 0 15px;
+            }
+
+            .hero-content h1 {
+                font-size: clamp(2rem, 8vw, 4rem);
+            }
+
+            .discord-tag {
+                display: none;
+            }
+
+            .filter-menu {
+                min-width: 180px;
+                right: -50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                height: 60px;
+            }
+
+            .hero-section {
+                height: 40vh;
+                margin-top: 60px;
+            }
+
+            .controls-wrapper {
+                top: 60px;
+            }
+
+            .media-card {
+                --card-w: 100%;
+            }
+
+            .settings-panel {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .settings-modal {
+                width: 90%;
+                right: 5%;
+                bottom: 120px;
+            }
         }
     </style>
 </head>
 <body>
-<div class="app">
-    <div class="header">
-        <div class="logo">
-            <h1>V-BUCKS</h1>
-            <p>Fortnite · recharge</p>
+    <div class="page-background"></div>
+    <div id="notification-center"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="main-logo" onclick="location.reload()">
+                <i class="fas fa-plus"></i>
+                MAILA
+            </a>
+            <div class="nav-actions">
+                <button class="action-btn" onclick="toggleModal('favModal')">
+                    <i class="fas fa-heart"></i>
+                    <span class="badge" id="favCount">0</span>
+                </button>
+                <button class="action-btn" onclick="toggleModal('premiumModal')">
+                    <i class="fas fa-crown"></i>
+                </button>
+                <button class="theme-toggle" onclick="toggleTheme()" title="Changer de theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="action-btn settings-toggle" onclick="toggleSettings()" title="Parametres">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
         </div>
-        <div class="header-actions">
-            <button id="infoModalBtn" class="icon-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-media-fixed"></div>
+        <div class="hero-content">
+            <a href="https://discord.gg/maila" target="_blank" class="discord-tag">discord.gg/maila</a>
+            <h1>MAILA<span>ULTRA CONTROL</span></h1>
+            <p class="hero-subtitle">Galerie de medias avancee - v11.0</p>
+        </div>
+    </section>
+
+    <!-- Controles (Recherche & Categories) -->
+    <div class="controls-wrapper">
+        <div class="search-area">
+            <input type="text" class="search-field" id="searchBox" placeholder="Filtrer par reference ou type..." onkeyup="applyFilter()" />
+            <div class="filter-btn" onclick="toggleFilterMenu(event)">
+                <i class="fas fa-filter"></i>
+                Filtres
+                <div class="filter-menu" id="filterMenu">
+                    <div class="filter-option" onclick="setFilter('all')">
+                        <input type="radio" name="mediaType" id="filterAll" checked />
+                        <label for="filterAll">Tout</label>
+                    </div>
+                    <div class="filter-option" onclick="setFilter('image')">
+                        <input type="radio" name="mediaType" id="filterImage" />
+                        <label for="filterImage">Images</label>
+                    </div>
+                    <div class="filter-option" onclick="setFilter('video')">
+                        <input type="radio" name="mediaType" id="filterVideo" />
+                        <label for="filterVideo">Videos</label>
+                    </div>
+                    <div class="filter-option" onclick="setFilter('gif')">
+                        <input type="radio" name="mediaType" id="filterGif" />
+                        <label for="filterGif">GIFs</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="category-scroll" id="categoryContainer"></div>
+        <div class="loading-spinner" id="loadingSpinner"></div>
+    </div>
+
+    <!-- Grille principale -->
+    <main class="content-grid" id="mainGrid"></main>
+    <button class="load-more-btn" id="loadMoreBtn" onclick="loadNewContent(6)">Charger plus</button>
+
+    <!-- Modales -->
+    <div class="modal-overlay" id="premiumModal">
+        <div class="modal-body">
+            <button class="modal-close" onclick="toggleModal('premiumModal')">
+                <i class="fas fa-times"></i>
             </button>
-            <button id="openCartBtn" class="cart-btn">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white"><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/><path d="M3 4H6L8 15H20L22 7H8"/></svg>
-                <span id="cartCounter" class="cart-badge">0</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" style="height:35px; margin-bottom: 20px;" alt="PayPal" />
+            <h2 style="font-family:'Syncopate'; font-size: 1.1rem; margin-bottom: 20px;">MAILA PRO EDITION</h2>
+            <div style="font-size: 3rem; font-weight: 900; margin-bottom: 20px;">
+                <small style="text-decoration: line-through; opacity: 0.3; font-size: 1.5rem;">10€</small> 1.00€
+            </div>
+            <div style="background: rgba(255,45,122,0.1); border: 1px dashed var(--accent); padding: 15px; border-radius: 15px; margin-bottom: 25px;">
+                <p style="font-size: 0.7rem; color: var(--accent); font-weight: 900;">NOTE PAYPAL :</p>
+                <code style="font-size: 1.1rem; color: #fff; display: block; margin: 5px 0;">MAILA_USER_PREMIUM</code>
+            </div>
+            <button class="paypal-btn-huge" onclick="window.open('https://www.paypal.com/paypalme/Newacc636', '_blank')">
+                PAYER VIA PAYPAL
             </button>
         </div>
     </div>
 
-    <div class="form-card">
-        <div class="field">
-            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 6V4H16V6"/><circle cx="12" cy="12" r="2"/></svg> Plateforme</label>
-            <select id="platformSelect">
-                <option>PC / Windows</option>
-                <option>PlayStation 4/5</option>
-                <option>Xbox Series X/S</option>
-                <option>Nintendo Switch</option>
-                <option>Mobile</option>
+    <div class="modal-overlay" id="favModal">
+        <div class="modal-body" style="max-width: 800px;">
+            <button class="modal-close" onclick="toggleModal('favModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 style="font-family:'Syncopate'; margin-bottom: 30px;">MES FAVORIS</h2>
+            <div class="search-area" style="margin-bottom: 20px;">
+                <input type="text" class="search-field" id="favSearchBox" placeholder="Rechercher dans les favoris..." onkeyup="filterFavorites()" />
+                <button class="filter-btn" onclick="exportFavorites()">
+                    <i class="fas fa-download"></i>
+                    Exporter
+                </button>
+                <button class="filter-btn" onclick="document.getElementById('importFavInput').click()">
+                    <i class="fas fa-upload"></i>
+                    Importer
+                </button>
+                <input type="file" id="importFavInput" accept=".json" style="display: none;" onchange="importFavorites(event)" />
+            </div>
+            <div id="favoritesDisplay" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; max-height: 60vh; overflow-y: auto;"></div>
+            <button class="paypal-btn-huge" style="margin-top: 30px; background: var(--accent2);" onclick="toggleModal('favModal')">
+                FERMER
+            </button>
+        </div>
+    </div>
+
+    <!-- Panneau de parametres -->
+    <div class="settings-panel" onclick="toggleSettings()">
+        <i class="fas fa-cog"></i>
+    </div>
+    <div class="settings-modal" id="settingsModal">
+        <h3>Parametres</h3>
+        <div class="settings-option">
+            <label for="cardsPerLoad">Cartes par chargement:</label>
+            <select id="cardsPerLoad" onchange="updateSettings()">
+                <option value="6">6</option>
+                <option value="12" selected>12</option>
+                <option value="18">18</option>
+                <option value="24">24</option>
             </select>
         </div>
-        <div class="field">
-            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Pseudo Fortnite</label>
-            <input type="text" id="gamertag" placeholder="ex: DarkKnightFR">
+        <div class="settings-option">
+            <label for="autoPlayVideos">Lecture auto (videos):</label>
+            <select id="autoPlayVideos" onchange="updateSettings()">
+                <option value="true">Oui</option>
+                <option value="false" selected>Non</option>
+            </select>
         </div>
-    </div>
-
-    <div class="form-card vbuck-selector">
-        <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Pack V-Bucks</label>
-        <select id="vbucksDropdown" class="vbuck-dropdown">
-            <option value="1000">1 000 V-Bucks</option>
-            <option value="2800">2 800 V-Bucks</option>
-            <option value="5000">5 000 V-Bucks</option>
-            <option value="13500">13 500 V-Bucks</option>
-        </select>
-        <button id="addToCartBtn" class="add-btn">+ Ajouter au panier</button>
-    </div>
-
-    <div class="form-card">
-        <div class="phone-block">
-            <label><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg> Téléphone France (10 chiffres)</label>
-            <input type="tel" id="phoneNumber" placeholder="06 12 34 56 78" maxlength="14">
-            <div id="phoneError" class="error-msg"></div>
+        <div class="settings-option">
+            <label for="spoilerEnabled">Masquer les miniatures:</label>
+            <select id="spoilerEnabled" onchange="updateSettings()">
+                <option value="true" selected>Oui</option>
+                <option value="false">Non</option>
+            </select>
         </div>
-        <button id="finalOrderBtn" class="order-btn">VALIDER LA COMMANDE</button>
-    </div>
-
-    <div class="bottom-nav">
-        <button class="nav-item active" data-nav="home"><svg viewBox="0 0 24 24"><path d="M3 9L12 3L21 9L12 15L3 9Z" stroke="currentColor"/><path d="M5 12v6M19 12v6" stroke="currentColor"/><rect x="7" y="15" width="10" height="6" stroke="currentColor"/></svg><span>Commande</span></button>
-        <button class="nav-item" data-nav="account"><svg viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" stroke="currentColor"/><path d="M5 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2" stroke="currentColor"/></svg><span>Compte</span></button>
-        <button class="nav-item" data-nav="help"><svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" stroke="currentColor"/><circle cx="12" cy="12" r="3" stroke="currentColor"/></svg><span>Aide</span></button>
-        <button class="nav-item" id="openChatNavBtn"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" fill="none"/></svg><span>Chat</span></button>
-    </div>
-</div>
-
-<!-- Panier -->
-<div id="cartPanel" class="cart-panel">
-    <div class="cart-header"><h2>Mon panier</h2><button id="closeCartPanel" class="close-cart">✕</button></div>
-    <div id="cartItemsContainer" class="cart-items-list"><div class="empty-cart">Panier vide</div></div>
-    <div id="cartTotalPrice" class="cart-total">Total : 0 article(s)</div>
-</div>
-
-<!-- Chat déplaçable avec commandes avancées -->
-<div id="chatWidget" class="chat-widget">
-    <div class="chat-header" id="chatDragHandle">
-        <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Communauté Fortnite</span>
-        <button id="closeChatBtn" style="background:none; border:none; color:white; font-size:1.4rem;">✕</button>
-    </div>
-    <div id="chatMessagesContainer" class="chat-messages"></div>
-    <div class="chat-input-area">
-        <input type="text" id="chatMessageInput" placeholder="Votre message... (/ pour commandes)" autocomplete="off">
-        <div id="slashMenu" class="slash-menu">
-            <div class="slash-menu-item" data-command="/help">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-                <span>/help - Aide</span>
-            </div>
-            <div class="slash-menu-item" data-command="/clearall">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M10 11v5M14 11v5"/></svg>
-                <span>/clearall - Tout effacer</span>
-            </div>
-            <div class="slash-menu-item" data-command="/clear">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                <span>/clear N - Supprimer N messages</span>
-            </div>
-            <div class="slash-menu-item" data-command="/ban">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
-                <span>/ban @pseudo - Bannir</span>
-            </div>
-            <div class="slash-menu-item" data-command="/timeout">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                <span>/timeout @pseudo minutes - Timeout</span>
-            </div>
-            <div class="slash-menu-item" data-command="/profil">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>/profil @pseudo - Voir profil</span>
-            </div>
+        <div class="settings-option">
+            <label for="themeColor">Couleur principale:</label>
+            <input type="color" id="themeColor" value="#ff2d7a" onchange="updateThemeColor()" />
         </div>
-        <button id="sendPhotoBtn" class="action-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="4" width="20" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="2.5"/><path d="M21 15l-5-4-3 3-4-4-5 5"/></svg>
+        <button class="paypal-btn-huge" style="margin-top: 20px; background: var(--accent2);" onclick="toggleSettings()">
+            Fermer
         </button>
-        <button id="recordAudioBtn" class="action-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3a4 4 0 0 0-4 4v5a4 4 0 0 0 8 0V7a4 4 0 0 0-4-4z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
-        </button>
-        <input type="file" id="photoFileInput" accept="image/*" style="display:none">
-        <button id="sendChatMsgBtn" class="action-btn">Envoyer</button>
     </div>
-</div>
 
-<script>
-    // ----------------------------- GESTION DES COMPTES & UTILISATEURS -----------------------------
-    let currentUserAccount = null;
-    const usersKey = "vb_users";
-    const currentUserKey = "vb_current_user";
-    // Structure user: { email, password, username, avatar, banner, isBanned, timeoutUntil }
-    function loadUsers() { const stored = localStorage.getItem(usersKey); return stored ? JSON.parse(stored) : []; }
-    function saveUsers(users) { localStorage.setItem(usersKey, JSON.stringify(users)); }
-    function getCurrentUser() { const stored = localStorage.getItem(currentUserKey); return stored ? JSON.parse(stored) : null; }
-    function setCurrentUser(user) {
-        if (user) {
-            localStorage.setItem(currentUserKey, JSON.stringify(user));
-            currentUserAccount = user;
-            document.getElementById('gamertag').value = user.username;
-            currentUserChat = user.username;
-            renderChatMessages();
-        } else {
-            localStorage.removeItem(currentUserKey);
-            currentUserAccount = null;
-            currentUserChat = "Invité";
-            document.getElementById('gamertag').value = "";
-            renderChatMessages();
-        }
-    }
-    function findUserByUsername(username) { return loadUsers().find(u => u.username.toLowerCase() === username.toLowerCase()); }
-    function updateUserInDB(updatedUser) {
-        let users = loadUsers();
-        const index = users.findIndex(u => u.username === updatedUser.username);
-        if (index !== -1) users[index] = updatedUser;
-        saveUsers(users);
-        if (currentUserAccount && currentUserAccount.username === updatedUser.username) setCurrentUser(updatedUser);
-    }
+    <!-- Lightbox -->
+    <div id="media-viewer" onclick="closeViewer()">
+        <div id="viewer-injection" style="display:contents" onclick="event.stopPropagation()"></div>
+        <div class="viewer-actions">
+            <button onclick="downloadCurrentMedia()" title="Telecharger"><i class="fas fa-download"></i></button>
+            <button onclick="toggleFavorite(currentViewerUrl, null)" title="Ajouter aux favoris">
+                <i class="fas fa-heart" id="viewerFavIcon"></i>
+            </button>
+            <button onclick="toggleFullscreen()" title="Plein ecran"><i class="fas fa-expand"></i></button>
+            <button onclick="closeViewer()" title="Fermer"><i class="fas fa-times"></i></button>
+        </div>
+    </div>
 
-    // Ban / timeout
-    function banUser(targetUsername) {
-        if (!currentUserAccount) return addSystemMessage("Vous devez être connecté pour bannir.");
-        if (currentUserAccount.username === targetUsername) return addSystemMessage("Vous ne pouvez pas vous bannir vous-même.");
-        let user = findUserByUsername(targetUsername);
-        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
-        user.isBanned = true;
-        updateUserInDB(user);
-        addSystemMessage(`${targetUsername} a été banni du chat.`);
-    }
-    function timeoutUser(targetUsername, minutes) {
-        if (!currentUserAccount) return addSystemMessage("Connectez-vous pour timeout.");
-        if (currentUserAccount.username === targetUsername) return addSystemMessage("Impossible de vous timeout.");
-        let user = findUserByUsername(targetUsername);
-        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
-        const duration = parseInt(minutes);
-        if (isNaN(duration) || duration <= 0) return addSystemMessage("Durée invalide (ex: /timeout @pseudo 5)");
-        user.timeoutUntil = Date.now() + duration * 60 * 1000;
-        updateUserInDB(user);
-        addSystemMessage(`${targetUsername} a été timeout pour ${duration} minutes.`);
-    }
-    function isUserTimedOut(username) {
-        const user = findUserByUsername(username);
-        if (user && user.timeoutUntil && user.timeoutUntil > Date.now()) return true;
-        return false;
-    }
+    <!-- Scripts -->
+    <script>
+        // ======================
+        // CONFIGURATION GLOBALE
+        // ======================
+        const CATEGORIES = ["pgif", "hentai", "hneko", "ass", "hboobs", "hthigh", "paizuri", "hmidriff", "hbikini"];
+        const LABELS = ["Global", "Hentai", "Anime", "Fessier", "Poitrine", "Cuisses", "Special", "Ventre", "Bikini"];
+        const API_URLS = {
+            pgif: "https://nekobot.xyz/api/image?type=pgif",
+            hentai: "https://nekobot.xyz/api/image?type=hentai",
+            hneko: "https://nekobot.xyz/api/image?type=hneko",
+            ass: "https://nekobot.xyz/api/image?type=ass",
+            hboobs: "https://nekobot.xyz/api/image?type=hboobs",
+            hthigh: "https://nekobot.xyz/api/image?type=hthigh",
+            paizuri: "https://nekobot.xyz/api/image?type=paizuri",
+            hmidriff: "https://nekobot.xyz/api/image?type=hmidriff",
+            hbikini: "https://nekobot.xyz/api/image?type=hbikini"
+        };
 
-    // Profil embed
-    function showProfileEmbed(targetUsername) {
-        const user = findUserByUsername(targetUsername);
-        if (!user) return addSystemMessage(`Utilisateur ${targetUsername} introuvable.`);
-        const avatarUrl = user.avatar || `https://ui-avatars.com/api/?background=ffaa44&color=000&name=${user.username[0]}`;
-        const bannerUrl = user.banner || "https://picsum.photos/400/100?grayscale";
-        const embedHtml = `
-            <div class="message embed" style="background:#1e1e2a;">
-                <div class="embed-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffaa44"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Profil de ${escapeHtml(user.username)}</div>
-                <div class="profile-banner" style="background-image: url(${bannerUrl}); background-size: cover;"></div>
-                <div class="profile-preview">
-                    <div class="profile-avatar"><img src="${avatarUrl}" width="48" height="48" style="border-radius:50%;"></div>
-                    <div><strong>${escapeHtml(user.username)}</strong><br>Membre depuis ${new Date(user.createdAt || Date.now()).toLocaleDateString()}</div>
-                </div>
-                <div class="embed-description">Statut: ${user.isBanned ? "Banni" : (isUserTimedOut(user.username) ? "Timeout" : "Actif")}</div>
-            </div>
-        `;
-        chatMessages.push({ sender: "Système", embedHtml, isSystem: true, isEmbed: true, timestamp: Date.now() });
-        saveMessagesToDB();
-        renderChatMessages();
-    }
+        // Etat de l'application
+        let currentCategory = "pgif";
+        let favs = JSON.parse(localStorage.getItem('maila_favs_v11')) || [];
+        let isLoading = false;
+        let loadedUrls = new Set();
+        let currentViewerUrl = null;
+        let currentFilter = "all"; // "all", "image", "video", "gif"
+        let settings = JSON.parse(localStorage.getItem('maila_settings_v11')) || {
+            cardsPerLoad: 12,
+            autoPlayVideos: false, // Désactivé par défaut pour éviter les bugs
+            spoilerEnabled: true,
+            theme: "dark",
+            themeColor: "#ff2d7a"
+        };
 
-    // ----------------------------- CHAT  -----------------------------
-    let currentUserChat = "Invité";
-    let chatMessages = [];
+        // ======================
+        // INITIALISATION
+        // ======================
+        document.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            initPanel();
+            renderFavorites();
+            updateFavCount();
+            loadSettings();
+            checkForUpdates();
 
-    function loadMessagesFromDB() {
-        const stored = localStorage.getItem("vb_chat_messages");
-        chatMessages = stored ? JSON.parse(stored) : [];
-        renderChatMessages();
-    }
-    function saveMessagesToDB() { localStorage.setItem("vb_chat_messages", JSON.stringify(chatMessages)); }
+            // Fermer le menu des filtres en cliquant ailleurs
+            document.addEventListener('click', (e) => {
+                const filterMenu = document.getElementById('filterMenu');
+                const filterBtn = document.querySelector('.filter-btn');
+                if (!filterBtn.contains(e.target) && !filterMenu.contains(e.target)) {
+                    filterMenu.classList.remove('active');
+                }
+            });
 
-    function addSystemMessage(text, isEmbed = false, embedHtml = null) {
-        chatMessages.push({ sender: "Système", text, isSystem: true, embedHtml, isEmbed, timestamp: Date.now() });
-        saveMessagesToDB();
-        renderChatMessages();
-    }
-
-    function addAudioMessage(base64Audio) {
-        const newMsg = { sender: currentUserChat, audio: base64Audio, timestamp: Date.now(), isSystem: false };
-        chatMessages.push(newMsg);
-        saveMessagesToDB();
-        renderChatMessages();
-    }
-
-    function addMessageToDB(text, imageBase64 = null, audioBase64 = null) {
-        if (!text && !imageBase64 && !audioBase64) return;
-        if (text && text.startsWith('/')) {
-            const parts = text.trim().split(' ');
-            const cmd = parts[0].toLowerCase();
-            if (cmd === '/clearall') { chatMessages = []; saveMessagesToDB(); addSystemMessage("Tous les messages ont été supprimés par " + currentUserChat); return; }
-            else if (cmd === '/help') {
-                const helpEmbed = `<div class="message embed"><div class="embed-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ffaa44"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg> Commandes disponibles</div><div class="embed-description"><strong>/help</strong> - Affiche ce menu<br><strong>/clearall</strong> - Supprime tout l'historique<br><strong>/clear N</strong> - Supprime les N derniers messages (ex: /clear 10)<br><strong>/ban @pseudo</strong> - Bannir un utilisateur<br><strong>/timeout @pseudo minutes</strong> - Timeout temporaire<br><strong>/profil @pseudo</strong> - Voir le profil avec avatar et bannière</div></div>`;
-                addSystemMessage("", true, helpEmbed);
-                return;
-            }
-            else if (cmd === '/clear' && parts[1]) {
-                const count = parseInt(parts[1]);
-                if (isNaN(count) || count <= 0) addSystemMessage("Utilisation: /clear nombre (ex: /clear 5)");
-                else { chatMessages = chatMessages.slice(0, -count); saveMessagesToDB(); addSystemMessage(`${count} message(s) supprimés.`); }
-                return;
-            }
-            else if (cmd === '/ban' && parts[1]) { banUser(parts[1].replace('@', '')); return; }
-            else if (cmd === '/timeout' && parts[1] && parts[2]) { timeoutUser(parts[1].replace('@', ''), parts[2]); return; }
-            else if (cmd === '/profil' && parts[1]) { showProfileEmbed(parts[1].replace('@', '')); return; }
-            else { addSystemMessage(`Commande inconnue. Tapez /help.`); return; }
-        }
-        // Vérifier timeout avant d'envoyer
-        if (isUserTimedOut(currentUserChat)) { addSystemMessage("Vous êtes actuellement en timeout, vous ne pouvez pas envoyer de message."); return; }
-        const newMsg = { sender: currentUserChat, text: text || "", image: imageBase64, audio: audioBase64, timestamp: Date.now(), isSystem: false };
-        chatMessages.push(newMsg);
-        saveMessagesToDB();
-        renderChatMessages();
-    }
-
-    function renderChatMessages() {
-        const container = document.getElementById("chatMessagesContainer");
-        if (!container) return;
-        if (chatMessages.length === 0) { container.innerHTML = '<div style="text-align:center; color:#aaa; padding:20px;">Aucun message.</div>'; return; }
-        let html = '';
-        for (let msg of chatMessages) {
-            if (msg.isSystem) {
-                if (msg.isEmbed && msg.embedHtml) html += msg.embedHtml;
-                else html += `<div class="message system">${escapeHtml(msg.text)}</div>`;
-                continue;
-            }
-            const isOwn = (msg.sender === currentUserChat);
-            html += `<div class="message ${isOwn ? 'user' : 'other'}"><div class="message-info">${escapeHtml(msg.sender)}</div>`;
-            if (msg.text) html += `<div>${escapeHtml(msg.text)}</div>`;
-            if (msg.image) html += `<img src="${msg.image}" class="message-img" alt="photo">`;
-            if (msg.audio) html += `<div class="audio-message"><audio controls src="${msg.audio}" style="height:36px;"></audio></div>`;
-            html += `</div>`;
-        }
-        container.innerHTML = html;
-        container.scrollTop = container.scrollHeight;
-    }
-    function escapeHtml(str) { if (!str) return ''; return str.replace(/[&<>]/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
-    window.addEventListener('storage', (event) => { if (event.key === 'vb_chat_messages') { chatMessages = JSON.parse(localStorage.getItem("vb_chat_messages") || "[]"); renderChatMessages(); } });
-
-    // SLASH MENU
-    const chatInput = document.getElementById('chatMessageInput');
-    const slashMenu = document.getElementById('slashMenu');
-    chatInput.addEventListener('input', (e) => {
-        if (e.target.value === '/') slashMenu.style.display = 'block';
-        else if (e.target.value.startsWith('/')) slashMenu.style.display = 'block';
-        else slashMenu.style.display = 'none';
-    });
-    document.querySelectorAll('.slash-menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const command = item.getAttribute('data-command');
-            if (command === '/clear') chatInput.value = '/clear ';
-            else if (command === '/ban') chatInput.value = '/ban @';
-            else if (command === '/timeout') chatInput.value = '/timeout @ ';
-            else if (command === '/profil') chatInput.value = '/profil @';
-            else chatInput.value = command + ' ';
-            chatInput.focus();
-            slashMenu.style.display = 'none';
+            // Chargement infini
+            window.addEventListener('scroll', () => {
+                if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !isLoading) {
+                    loadNewContent(settings.cardsPerLoad / 2);
+                }
+            });
         });
-    });
-    document.addEventListener('click', (e) => { if (!chatInput.contains(e.target) && !slashMenu.contains(e.target)) slashMenu.style.display = 'none'; });
 
-    // Audio recording
-    let mediaRecorder, audioChunks = [], isRecording = false;
-    const recordBtn = document.getElementById('recordAudioBtn');
-    async function startRecording() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-            mediaRecorder.onstop = () => {
-                const blob = new Blob(audioChunks, { type: 'audio/webm' });
-                const reader = new FileReader();
-                reader.readAsDataURL(blob);
-                reader.onloadend = () => addAudioMessage(reader.result);
-                stream.getTracks().forEach(t => t.stop());
+        // ======================
+        // FONCTIONS PRINCIPALES
+        // ======================
+        function initPanel() {
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = '';
+            LABELS.forEach((label, index) => {
+                const btn = document.createElement('div');
+                btn.className = `cat-tag ${CATEGORIES[index] === currentCategory ? 'active' : ''}`;
+                btn.innerText = label;
+                btn.onclick = () => {
+                    currentCategory = CATEGORIES[index];
+                    document.querySelectorAll('.cat-tag').forEach(t => t.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('mainGrid').innerHTML = '';
+                    loadedUrls.clear();
+                    loadNewContent(settings.cardsPerLoad);
+                };
+                container.appendChild(btn);
+            });
+            loadNewContent(settings.cardsPerLoad);
+        }
+
+        async function loadNewContent(count) {
+            if (isLoading) return;
+            isLoading = true;
+            document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('loadMoreBtn').disabled = true;
+
+            const promises = [];
+            for (let i = 0; i < count; i++) {
+                promises.push(
+                    fetch(API_URLS[currentCategory] || API_URLS.pgif)
+                        .then(res => {
+                            if (!res.ok) throw new Error('Erreur API');
+                            return res.json();
+                        })
+                        .then(data => {
+                            if (data && data.message && !loadedUrls.has(data.message)) {
+                                loadedUrls.add(data.message);
+                                return data.message;
+                            }
+                            return null;
+                        })
+                        .catch(err => {
+                            console.error("Erreur lors du chargement:", err);
+                            return null;
+                        })
+                );
+            }
+
+            const results = await Promise.all(promises);
+            results.forEach(url => {
+                if (url) renderCard(url);
+            });
+
+            isLoading = false;
+            document.getElementById('loadingSpinner').style.display = 'none';
+            document.getElementById('loadMoreBtn').disabled = false;
+        }
+
+        function renderCard(url) {
+            const isVideo = url.match(/\.(mp4|webm|mov)$/i);
+            const isGif = url.match(/\.gif$/i);
+            const refID = "REF-" + Math.random().toString(36).substr(2, 6).toUpperCase();
+            const card = document.createElement('div');
+            card.className = 'media-card';
+            card.setAttribute('data-ref', refID);
+            card.setAttribute('data-url', url);
+            card.setAttribute('data-type', isVideo ? 'video' : isGif ? 'gif' : 'image');
+
+            // Masquer les cartes qui ne correspondent pas au filtre actuel
+            if (currentFilter !== "all" && !card.getAttribute('data-type').includes(currentFilter)) {
+                card.style.display = 'none';
+            }
+
+            card.innerHTML = `
+                <div class="thumbnail-container" onclick="handleCardClick(this, '${url.replace(/'/g, "\\'")}')">
+                    ${settings.spoilerEnabled ? '<div class="card-spoiler"><i class="fas fa-eye-slash"></i><span>VOIR</span></div>' : ''}
+                    ${isVideo ? `<video src="${url}" loop muted playsinline></video>` : `<img src="${url}" loading="lazy" onerror="this.parentElement.parentElement.style.display='none'">`}
+                </div>
+                <div class="card-info">
+                    <span class="card-ref">${refID}</span>
+                    <div class="card-actions">
+                        <i class="fas fa-download download" onclick="downloadMedia('${url.replace(/'/g, "\\'")}', event)"></i>
+                        <i class="fas fa-heart fav ${favs.includes(url) ? 'active' : ''}" onclick="toggleFavorite('${url.replace(/'/g, "\\'")}', this, event)"></i>
+                    </div>
+                </div>
+            `;
+            document.getElementById('mainGrid').appendChild(card);
+        }
+
+        function handleCardClick(container, url) {
+            const spoiler = container.querySelector('.card-spoiler');
+            if (spoiler && !spoiler.classList.contains('hidden')) {
+                spoiler.classList.add('hidden');
+                const video = container.querySelector('video');
+                if (video) video.play();
+            } else {
+                openViewer(url);
+            }
+        }
+
+        function openViewer(url) {
+            currentViewerUrl = url;
+            const isVid = url.match(/\.(mp4|webm|mov)$/i);
+            const injection = document.getElementById('viewer-injection');
+            injection.innerHTML = isVid
+                ? `<video src="${url}" class="viewer-content" controls autoplay loop></video>`
+                : `<img src="${url}" class="viewer-content">`;
+
+            const viewerFavIcon = document.getElementById('viewerFavIcon');
+            if (favs.includes(url)) {
+                viewerFavIcon.classList.add('active');
+                viewerFavIcon.style.color = 'var(--accent)';
+            } else {
+                viewerFavIcon.classList.remove('active');
+                viewerFavIcon.style.color = 'var(--text-muted)';
+            }
+
+            document.getElementById('media-viewer').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeViewer() {
+            document.getElementById('media-viewer').classList.remove('active');
+            document.body.style.overflow = '';
+            const video = document.querySelector('#viewer-injection video');
+            if (video) video.pause();
+        }
+
+        function toggleFavorite(url, el, event) {
+            if (event) event.stopPropagation();
+            if (favs.includes(url)) {
+                favs = favs.filter(f => f !== url);
+                if (el) {
+                    el.classList.remove('active');
+                    el.style.color = 'var(--text-muted)';
+                }
+                showNotification("Retire des favoris", "warning");
+            } else {
+                favs.push(url);
+                if (el) {
+                    el.classList.add('active');
+                    el.style.color = 'var(--accent)';
+                }
+                showNotification("Ajoute aux favoris", "success");
+            }
+            localStorage.setItem('maila_favs_v11', JSON.stringify(favs));
+            renderFavorites();
+            updateFavCount();
+
+            if (currentViewerUrl === url) {
+                const viewerFavIcon = document.getElementById('viewerFavIcon');
+                if (favs.includes(url)) {
+                    viewerFavIcon.classList.add('active');
+                    viewerFavIcon.style.color = 'var(--accent)';
+                } else {
+                    viewerFavIcon.classList.remove('active');
+                    viewerFavIcon.style.color = 'var(--text-muted)';
+                }
+            }
+        }
+
+        function renderFavorites() {
+            const display = document.getElementById('favoritesDisplay');
+            display.innerHTML = favs.length
+                ? ''
+                : '<p style="grid-column: 1/-1; opacity:0.5; text-align:center; padding:20px;">Aucun favori pour le moment.</p>';
+
+            favs.forEach(url => {
+                const item = document.createElement('div');
+                item.className = 'fav-item';
+                item.onclick = () => {
+                    toggleModal('favModal');
+                    openViewer(url);
+                };
+                item.innerHTML = `
+                    <button class="remove-fav-btn" onclick="event.stopPropagation(); toggleFavorite('${url.replace(/'/g, "\\'")}', null, event)">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    ${url.match(/\.(mp4|webm|mov)$/i)
+                        ? `<video src="${url}" muted loop></video>`
+                        : `<img src="${url}" loading="lazy" onerror="this.parentElement.style.display='none'">`}
+                `;
+                display.appendChild(item);
+            });
+        }
+
+        function updateFavCount() {
+            const countEl = document.getElementById('favCount');
+            countEl.textContent = favs.length;
+        }
+
+        function toggleModal(id) {
+            if (id === 'favModal') renderFavorites();
+            document.getElementById(id).classList.toggle('active');
+            document.body.style.overflow = document.getElementById(id).classList.contains('active')
+                ? 'hidden'
+                : '';
+        }
+
+        function applyFilter() {
+            const q = document.getElementById('searchBox').value.toUpperCase();
+            document.querySelectorAll('.media-card').forEach(c => {
+                const ref = c.getAttribute('data-ref');
+                const type = c.getAttribute('data-type');
+                const matchesRef = ref.includes(q);
+                const matchesType = type.toUpperCase().includes(q);
+                const matchesFilter = currentFilter === "all" || type.includes(currentFilter);
+                c.style.display = (matchesRef || matchesType) && matchesFilter ? 'block' : 'none';
+            });
+        }
+
+        function filterFavorites() {
+            const q = document.getElementById('favSearchBox').value.toLowerCase();
+            document.querySelectorAll('#favoritesDisplay .fav-item').forEach(item => {
+                const url = item.querySelector('img, video').src.toLowerCase();
+                item.style.display = url.includes(q) ? 'block' : 'none';
+            });
+        }
+
+        function showNotification(msg, type = "info") {
+            const t = document.createElement('div');
+            t.className = `toast-msg ${type}`;
+            t.innerHTML = `
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                ${msg}
+            `;
+            document.getElementById('notification-center').appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function downloadMedia(url, event) {
+            if (event) event.stopPropagation();
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = url.split('/').pop().split('?')[0];
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showNotification("Telechargement demarre", "success");
+        }
+
+        function downloadCurrentMedia() {
+            if (currentViewerUrl) {
+                downloadMedia(currentViewerUrl);
+            }
+        }
+
+        // ======================
+        // FONCTIONS DES FILTRES
+        // ======================
+        function toggleFilterMenu(event) {
+            event.stopPropagation();
+            const filterMenu = document.getElementById('filterMenu');
+            filterMenu.classList.toggle('active');
+        }
+
+        function setFilter(type) {
+            currentFilter = type;
+            document.getElementById('filterMenu').classList.remove('active');
+            document.querySelectorAll('.media-card').forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                const shouldShow = type === "all" || cardType.includes(type);
+                card.style.display = shouldShow ? '' : 'none';
+            });
+            showNotification(`Filtre applique: ${type === "all" ? "Tout" : type === "gif" ? "GIFs" : type.charAt(0).toUpperCase() + type.slice(1)}`, "success");
+        }
+
+        // ======================
+        // FONCTIONS AVANCEES
+        // ======================
+        function toggleTheme() {
+            settings.theme = settings.theme === "dark" ? "light" : "dark";
+            document.body.setAttribute('data-theme', settings.theme);
+            localStorage.setItem('maila_settings_v11', JSON.stringify(settings));
+            updateThemeIcon();
+            applyTheme();
+            showNotification(`Theme ${settings.theme === "dark" ? "sombre" : "clair"} active`);
+        }
+
+        function updateThemeIcon() {
+            const icon = document.getElementById('themeIcon');
+            icon.className = settings.theme === "dark" ? "fas fa-moon" : "fas fa-sun";
+        }
+
+        function applyTheme() {
+            document.body.setAttribute('data-theme', settings.theme);
+            updateThemeIcon();
+            document.documentElement.style.setProperty('--accent', settings.themeColor || '#ff2d7a');
+            document.documentElement.style.setProperty('--accent-glow', settings.themeColor ? settings.themeColor + '50' : 'rgba(255, 45, 122, 0.5)');
+        }
+
+        function updateThemeColor() {
+            const color = document.getElementById('themeColor').value;
+            settings.themeColor = color;
+            document.documentElement.style.setProperty('--accent', color);
+            document.documentElement.style.setProperty('--accent-glow', color + '50');
+            localStorage.setItem('maila_settings_v11', JSON.stringify(settings));
+        }
+
+        function toggleSettings() {
+            document.getElementById('settingsModal').classList.toggle('active');
+        }
+
+        function loadSettings() {
+            document.getElementById('cardsPerLoad').value = settings.cardsPerLoad;
+            document.getElementById('autoPlayVideos').value = settings.autoPlayVideos;
+            document.getElementById('spoilerEnabled').value = settings.spoilerEnabled;
+            document.getElementById('themeColor').value = settings.themeColor || '#ff2d7a';
+        }
+
+        function updateSettings() {
+            settings.cardsPerLoad = parseInt(document.getElementById('cardsPerLoad').value);
+            settings.autoPlayVideos = document.getElementById('autoPlayVideos').value === 'true';
+            settings.spoilerEnabled = document.getElementById('spoilerEnabled').value === 'true';
+            localStorage.setItem('maila_settings_v11', JSON.stringify(settings));
+
+            document.getElementById('mainGrid').innerHTML = '';
+            loadedUrls.clear();
+            loadNewContent(settings.cardsPerLoad);
+
+            showNotification("Parametres mis a jour", "success");
+        }
+
+        function toggleFullscreen() {
+            const viewer = document.getElementById('media-viewer');
+            if (!document.fullscreenElement) {
+                viewer.requestFullscreen().catch(err => {
+                    showNotification("Erreur en mode plein ecran: " + err.message, "error");
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        function exportFavorites() {
+            const data = JSON.stringify(favs, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'maila_favorites_' + new Date().toISOString().split('T')[0] + '.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showNotification("Favoris exporte", "success");
+        }
+
+        function importFavorites(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const importedFavs = JSON.parse(e.target.result);
+                    if (Array.isArray(importedFavs)) {
+                        favs = [...new Set([...favs, ...importedFavs])];
+                        localStorage.setItem('maila_favs_v11', JSON.stringify(favs));
+                        renderFavorites();
+                        updateFavCount();
+                        showNotification(`${importedFavs.length} favoris importes`, "success");
+                    } else {
+                        showNotification("Fichier invalide", "error");
+                    }
+                } catch (err) {
+                    showNotification("Erreur lors de l'import: " + err.message, "error");
+                }
             };
-            mediaRecorder.start();
-            isRecording = true;
-            recordBtn.classList.add('recording-btn');
-            showToast("Enregistrement... cliquez à nouveau pour arrêter");
-        } catch (err) { showToast("Micro non autorisé", true); }
-    }
-    function stopRecording() { if (mediaRecorder && isRecording) { mediaRecorder.stop(); isRecording = false; recordBtn.classList.remove('recording-btn'); } }
-    recordBtn.addEventListener('click', () => { if (isRecording) stopRecording(); else startRecording(); });
+            reader.readAsText(file);
+            event.target.value = '';
+        }
 
-    // Panier, commandes, etc. (reste identique)
-    let cart = [];
-    const vbMap = { '1000':'1 000 V-Bucks', '2800':'2 800 V-Bucks', '5000':'5 000 V-Bucks', '13500':'13 500 V-Bucks' };
-    function saveCart() { localStorage.setItem('vb_cart', JSON.stringify(cart)); updateCartUI(); updateCartCounter(); }
-    function loadCart() { cart = JSON.parse(localStorage.getItem('vb_cart') || "[]"); updateCartUI(); updateCartCounter(); }
-    function addToCart(vbValue) { const name = vbMap[vbValue]; const existing = cart.find(i => i.id === vbValue); if (existing) existing.quantity++; else cart.push({ id: vbValue, name, quantity: 1 }); saveCart(); showToast(`✔ ${name} ajouté`); }
-    function updateQuantity(idx, delta) { if (cart[idx]) { let newQty = cart[idx].quantity + delta; if (newQty <= 0) cart.splice(idx,1); else cart[idx].quantity = newQty; saveCart(); } }
-    function updateCartUI() {
-        const container = document.getElementById('cartItemsContainer');
-        if (!container) return;
-        if (cart.length === 0) { container.innerHTML = '<div class="empty-cart">Panier vide</div>'; document.getElementById('cartTotalPrice').innerText = 'Total : 0 article(s)'; return; }
-        let totalItems = 0, html = '';
-        cart.forEach((item, idx) => { totalItems += item.quantity; html += `<div class="cart-item-row"><div><div>${item.name}</div><div>Qté: ${item.quantity}</div></div><div class="cart-qty-control"><button data-idx="${idx}" data-delta="-1">-</button><span>${item.quantity}</span><button data-idx="${idx}" data-delta="1">+</button><button class="remove-cart-item" data-idx="${idx}">🗑</button></div></div>`; });
-        container.innerHTML = html;
-        document.getElementById('cartTotalPrice').innerText = `Total : ${totalItems} article(s)`;
-        document.querySelectorAll('.cart-qty-control button[data-delta]').forEach(btn => btn.addEventListener('click', (e) => { const idx = parseInt(btn.dataset.idx), delta = parseInt(btn.dataset.delta); updateQuantity(idx, delta); }));
-        document.querySelectorAll('.remove-cart-item').forEach(btn => btn.addEventListener('click', (e) => { removeItem(parseInt(btn.dataset.idx)); }));
-    }
-    function removeItem(idx) { cart.splice(idx,1); saveCart(); }
-    function updateCartCounter() { document.getElementById('cartCounter').innerText = cart.reduce((s,i)=>s+i.quantity,0); }
+        function checkForUpdates() {
+            setTimeout(() => {
+                if (Math.random() > 0.7) {
+                    showNotification("Nouvelle version disponible (v11.0)", "info");
+                }
+            }, 2000);
+        }
 
-    const phoneInput = document.getElementById('phoneNumber');
-    function formatPhone(v) { let d = v.replace(/\D/g,''); if(d.length>10) d=d.slice(0,10); let f=''; for(let i=0;i<d.length;i++){ if(i===2||i===4||i===6||i===8) f+=' '; f+=d[i]; } return f; }
-    phoneInput.addEventListener('input', e => e.target.value = formatPhone(e.target.value));
-    function isValidFrenchPhone(p) { const d = p.replace(/\s/g,''); return /^(06|07)[0-9]{8}$/.test(d); }
-    function showToast(msg, isErr=false) { const t=document.createElement('div'); t.className='toast'; t.style.background=isErr?'#aa2e2e':'#1f2a2f'; t.innerText=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
-    document.getElementById('finalOrderBtn').addEventListener('click', () => {
-        const pseudo = document.getElementById('gamertag').value.trim();
-        const platform = document.getElementById('platformSelect').value;
-        const phone = phoneInput.value.trim();
-        if (!pseudo) return showToast('Pseudo requis', true);
-        if (!isValidFrenchPhone(phone)) { document.getElementById('phoneError').innerText = 'Numéro invalide'; return; }
-        if (cart.length===0) return showToast('Panier vide', true);
-        showToast(`Commande validée pour ${pseudo} (${platform})`);
-        cart = []; saveCart(); document.getElementById('cartPanel').classList.remove('open');
-    });
-    document.getElementById('openCartBtn').addEventListener('click', () => document.getElementById('cartPanel').classList.add('open'));
-    document.getElementById('closeCartPanel').addEventListener('click', () => document.getElementById('cartPanel').classList.remove('open'));
-    document.getElementById('addToCartBtn').addEventListener('click', () => addToCart(document.getElementById('vbucksDropdown').value));
-    document.getElementById('infoModalBtn').addEventListener('click', () => { const m=document.createElement('div'); m.className='fullscreen-modal'; m.innerHTML=`<div class="modal-content"><h2>Infos</h2><p>Chat avec commandes /help, /clearall, /clear N, /ban, /timeout, /profil</p><button id="closeFullModal">Fermer</button></div>`; document.body.appendChild(m); document.getElementById('closeFullModal').addEventListener('click',()=>m.remove()); m.addEventListener('click',e=>{if(e.target===m) m.remove();}); });
-    // Chat UI
-    const chatWidget = document.getElementById('chatWidget');
-    function openChat() { currentUserChat = document.getElementById('gamertag').value.trim() || "Invité"; chatWidget.classList.add('open'); renderChatMessages(); }
-    function closeChat() { chatWidget.classList.remove('open'); if(isRecording) stopRecording(); }
-    document.getElementById('openChatNavBtn').addEventListener('click', openChat);
-    document.getElementById('closeChatBtn').addEventListener('click', closeChat);
-    document.getElementById('sendChatMsgBtn').addEventListener('click', () => { const txt = document.getElementById('chatMessageInput').value.trim(); if(txt) { addMessageToDB(txt); document.getElementById('chatMessageInput').value = ''; slashMenu.style.display = 'none'; } });
-    document.getElementById('chatMessageInput').addEventListener('keypress', e => { if(e.key === 'Enter') document.getElementById('sendChatMsgBtn').click(); });
-    const photoInput = document.getElementById('photoFileInput');
-    document.getElementById('sendPhotoBtn').addEventListener('click', () => photoInput.click());
-    photoInput.addEventListener('change', e => { const file = e.target.files[0]; if(file && file.type.startsWith('image/')) { const reader = new FileReader(); reader.onload = ev => { addMessageToDB("", ev.target.result); photoInput.value = ''; }; reader.readAsDataURL(file); } else if(file) showToast("Image uniquement", true); });
-    // Drag
-    const dragHandle = document.getElementById('chatDragHandle');
-    let drag = false, sX, sY, sL, sB;
-    function onMove(ev) { if(!drag) return; let dx = ev.clientX - sX, dy = ev.clientY - sY; let nl = sL + dx, nb = sB - dy; nl = Math.min(window.innerWidth - chatWidget.offsetWidth - 10, Math.max(10, nl)); nb = Math.min(window.innerHeight - chatWidget.offsetHeight - 10, Math.max(60, nb)); chatWidget.style.left = nl + 'px'; chatWidget.style.bottom = nb + 'px'; chatWidget.style.right = 'auto'; }
-    function onUp() { drag = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-    dragHandle.addEventListener('mousedown', (e) => { if(e.target.tagName === 'BUTTON') return; drag = true; sX = e.clientX; sY = e.clientY; const rect = chatWidget.getBoundingClientRect(); sL = rect.left; sB = window.innerHeight - rect.bottom; chatWidget.style.left = sL + 'px'; chatWidget.style.bottom = sB + 'px'; chatWidget.style.right = 'auto'; document.addEventListener('mousemove', onMove); document.addEventListener('mouseup', onUp); e.preventDefault(); });
-    // Navigation
-    document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => { const t = btn.dataset.nav; if(t==='account') openAccountModal(); else if(t==='help') { const m=document.createElement('div'); m.className='fullscreen-modal'; m.innerHTML=`<div class="modal-content"><h2>Aide</h2><p>Commandes slash : /help, /clearall, /clear N, /ban @user, /timeout @user minutes, /profil @user</p><button id="closeHelpModal">Fermer</button></div>`; document.body.appendChild(m); document.getElementById('closeHelpModal').addEventListener('click',()=>m.remove()); m.addEventListener('click',e=>{if(e.target===m) m.remove();}); } else if(t==='home') document.querySelector('.form-card')?.scrollIntoView({behavior:'smooth'}); }));
-    function openAccountModal() { /* même code que précédent */ const modal = document.createElement('div'); modal.className='fullscreen-modal'; let isLogin=true; function render(){ modal.innerHTML=`<div class="modal-content"><h2>${isLogin?'Connexion':'Inscription'}</h2><input type="email" id="authEmail" placeholder="Email"><input type="password" id="authPassword" placeholder="Mot de passe">${!isLogin?'<input type="text" id="authUsername" placeholder="Pseudo Fortnite">':''}<button id="authSubmitBtn">${isLogin?'Se connecter':'Créer'}</button><div class="toggle-auth">${isLogin?'Pas de compte ? Créer':'Déjà un compte ? Connexion'}</div>${currentUserAccount?'<button id="logoutBtn" style="background:#333;">Déconnexion</button>':''}</div>`; modal.querySelector('#authSubmitBtn').addEventListener('click',()=>{ const email=modal.querySelector('#authEmail').value.trim(), pwd=modal.querySelector('#authPassword').value.trim(); if(isLogin){ const users=loadUsers(); const user=users.find(u=>u.email===email && u.password===pwd); if(user){ setCurrentUser({email:user.email, username:user.username, avatar:user.avatar, banner:user.banner}); showToast(`Connecté ${user.username}`); modal.remove(); } else showToast("Identifiants incorrects",true); } else { const username=modal.querySelector('#authUsername').value.trim(); if(!email||!pwd||!username){ showToast("Tous champs requis",true); return; } let users=loadUsers(); if(users.find(u=>u.email===email)){ showToast("Email déjà utilisé",true); return; } const newUser={email, password:pwd, username, avatar:null, banner:null, createdAt:Date.now()}; users.push(newUser); saveUsers(users); setCurrentUser(newUser); showToast(`Compte créé : ${username}`); modal.remove(); } }); const toggle=modal.querySelector('.toggle-auth'); if(toggle) toggle.addEventListener('click',()=>{ isLogin=!isLogin; render(); }); if(currentUserAccount){ const logoutBtn=modal.querySelector('#logoutBtn'); if(logoutBtn) logoutBtn.addEventListener('click',()=>{ setCurrentUser(null); showToast("Déconnecté"); modal.remove(); }); } } render(); document.body.appendChild(modal); modal.addEventListener('click',e=>{if(e.target===modal) modal.remove();}); }
-    loadCart(); loadMessagesFromDB(); const savedUser = getCurrentUser(); if(savedUser) { currentUserAccount = savedUser; currentUserChat = savedUser.username; document.getElementById('gamertag').value = savedUser.username; } else currentUserChat = "Invité"; renderChatMessages();
-</script>
+        // ======================
+        // RACCOURCIS CLAVIER
+        // ======================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeViewer();
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    toggleModal(modal.id);
+                });
+                document.getElementById('settingsModal').classList.remove('active');
+                document.getElementById('filterMenu').classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
